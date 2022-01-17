@@ -19,4 +19,5 @@ class MotorGroup{// Group multiple talons for basic drive functionality
       else{
         *talons[0].Set(TalonSRXControlMode.PercentOutput, speed);
       }
+    }
 };
