@@ -8,7 +8,7 @@
 
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
-#include "Drivetrain.cpp"
+#include "Drivetrain.h"
 
 class Robot : public frc::TimedRobot {
  public:
