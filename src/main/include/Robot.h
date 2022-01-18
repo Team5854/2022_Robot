@@ -8,6 +8,7 @@
 
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
+#include "Drivetrain.cpp"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -27,4 +28,5 @@ class Robot : public frc::TimedRobot {
   const std::string kAutoNameDefault = "Default";
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
+  TankDrive drivetrain{{1,2},{3,4}};
 };

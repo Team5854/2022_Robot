@@ -4,20 +4,18 @@
 
 #include "Robot.h"
 
-#include "MotorGroup.cpp"
-
 #include <fmt/core.h>
 
-#include <frc/smartdashboard/SmartDashboard.h>
+//#include <frc/smartdashboard/SmartDashboard.h>
 
 #include "ctre/Phoenix.h"
+
 
 
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
-  frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-  MotorGroup myGroup({1,2,3});
+  //frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 }
 
 /**
