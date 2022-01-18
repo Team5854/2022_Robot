@@ -6,16 +6,15 @@
 
 #include <fmt/core.h>
 
-//#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 #include "ctre/Phoenix.h"
-
 
 
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
-  //frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+  frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 }
 
 /**

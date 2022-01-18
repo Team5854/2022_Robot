@@ -1,3 +1,6 @@
+#ifndef DRIVETRAIN
+#define DRIVETRAIN
+
 #include "MotorGroup.h"
 #include <iostream>
 #include <initializer_list>
@@ -17,3 +20,5 @@ class TankDrive: public Drivetrain {// Derives Drivetrain to implement a tank dr
     void Set(double forward, double rotation);// Sets the speed of the motor groups based off of forward and rotational values
     void DiffSet(double leftSpeed, double rightSpeed); // Sets the left and right group motor speeds to the values passed
 };
+
+#endif // Drivetrain include guard

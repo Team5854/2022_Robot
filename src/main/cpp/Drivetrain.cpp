@@ -32,6 +32,7 @@ void TankDrive::DiffSet(double leftSpeed, double rightSpeed){ // Sets the left a
   if((leftSpeed > 1 || leftSpeed < -1) || (rightSpeed > 1 || rightSpeed < -1)){
     std::cout<<"Invalid Tankdrive DiffSet() parameters"<<std::endl;
     throw 1;
+  }
   else{
     left.Set(leftSpeed);
     right.Set(rightSpeed);

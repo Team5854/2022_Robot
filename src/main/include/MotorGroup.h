@@ -1,3 +1,6 @@
+#ifndef MOTORGROUP
+#define MOTORGROUP
+
 #include "ctre/Phoenix.h"
 #include <vector>
 #include <initializer_list>
@@ -9,3 +12,5 @@ class MotorGroup{// Group multiple talons for basic drive functionality
     MotorGroup(std::initializer_list<int> talonIds);
     void Set(double speed);// Set speed of the talons in basic PercentOutput control mode
 };
+
+#endif // MotorGroup include guard
