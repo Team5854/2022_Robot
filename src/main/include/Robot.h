@@ -44,6 +44,6 @@ class Robot : public frc::TimedRobot {
  private:
   TankDrive driveTrain{{3,4},{1,2}};
   frc::GenericHID driverPad1{port};
-  //frc::SerialPort usbSensorHub{115200,frc::SerialPort::kUSB};
+  frc::SerialPort usbSensorHub{115200,frc::SerialPort::kUSB};
   rev::CANSparkMax shooterMotor{5,rev::CANSparkMaxLowLevel::MotorType::kBrushless};
 };
