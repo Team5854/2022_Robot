@@ -7,8 +7,26 @@
 #include <string>
 
 #include <frc/TimedRobot.h>
-#include <frc/smartdashboard/SendableChooser.h>
 #include "Drivetrain.h"
+#include <frc/GenericHID.h>
+#include <frc/SerialPort.h>
+#include <rev/CANSparkMax.h>
+
+const double accelMod = -.5;
+const double turnMod = .6;
+const double boost = 3.5;
+enum gamePadConfig {
+  port = 0,
+  accelerationAxis = 1,
+  steeringAxis = 2,
+  leftDriveAxis = 1,
+  rightDriveAxis = 3,
+  boostButton = 3,
+  shootButton = 4,
+  sendT = 3,
+  sendF = 2
+};
+
 
 class Robot : public frc::TimedRobot {
  public:
@@ -24,9 +42,8 @@ class Robot : public frc::TimedRobot {
   void TestPeriodic() override;
 
  private:
-  frc::SendableChooser<std::string> m_chooser;
-  const std::string kAutoNameDefault = "Default";
-  const std::string kAutoNameCustom = "My Auto";
-  std::string m_autoSelected;
-  TankDrive drivetrain{{1,2},{3,4}};
+  TankDrive driveTrain{{3,4},{1,2}};
+  frc::GenericHID driverPad1{port};
+  //frc::SerialPort usbSensorHub{115200,frc::SerialPort::kUSB};
+  rev::CANSparkMax shooterMotor{5,rev::CANSparkMaxLowLevel::MotorType::kBrushless};
 };

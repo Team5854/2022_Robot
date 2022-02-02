@@ -1,9 +1,11 @@
 #include "MotorGroup.h"
 
-MotorGroup::MotorGroup(std::initializer_list<int> talonIds){ 
+MotorGroup::MotorGroup(std::initializer_list<int> talonIds,bool setInverted){ 
   for (int id : talonIds) talons.push_back(new TalonSRX(id));// Add a new talon object to the vector for each id given to the constructor
+  if (setInverted) talons[0]->SetInverted(true);
   for (unsigned int i = 1; i < talons.size(); i++){// Set each talon after the first listed to follow the first talon
     talons[i]->Follow(*talons[0]);
+    if (setInverted) talons[i]->SetInverted(true);
   }
 }
 

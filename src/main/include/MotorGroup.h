@@ -9,7 +9,7 @@
 class MotorGroup{// Group multiple talons for basic drive functionality
   public:
     std::vector<TalonSRX*> talons;// Vector of pointers to talon objects
-    MotorGroup(std::initializer_list<int> talonIds);
+    MotorGroup(std::initializer_list<int> talonIds,bool setInverted);
     void Set(double speed);// Set speed of the talons in basic PercentOutput control mode
 };
 

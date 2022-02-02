@@ -6,7 +6,8 @@ double Drivetrain::PercentRange(double in){// Constrains the input to a range of
   else return in;
 }
 
-TankDrive:: TankDrive(std::initializer_list<int> leftMotors, std::initializer_list<int> rightMotors): left(leftMotors), right(rightMotors) {}// Initializes the right and left motor groups with ids given by the constructor
+TankDrive:: TankDrive(std::initializer_list<int> leftMotors, std::initializer_list<int> rightMotors): left(leftMotors,false), right(rightMotors,true) {
+}// Initializes the right and left motor groups with ids given by the constructor
 
 void TankDrive::Set(double forward, double rotation){// Sets the speed of the motor groups based off of forward and rotational values
   /* The values are set using a formula of substracting the rotational speed from -1 to 1 for left to right from the forward speed motors on the turn side. The motors on the non turnside
@@ -16,8 +17,8 @@ void TankDrive::Set(double forward, double rotation){// Sets the speed of the mo
     std::cout<<"Invalid Tankdrive Set() parameters"<<std::endl;
     throw 1;
   }
-  else{
-    if(forward >= 0){
+  else{ 
+    if(true){
       left.Set(Drivetrain::PercentRange(forward+rotation)); //Left side + rotation (slows when negative meaning left turn, and speeds up for positive)
       right.Set(Drivetrain::PercentRange(forward-rotation)); //Right side - rotation (reverse of above)
     }
