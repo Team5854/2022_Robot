@@ -11,6 +11,9 @@
 #include <frc/GenericHID.h>
 #include <frc/SerialPort.h>
 #include <rev/CANSparkMax.h>
+#include <frc/Compressor.h>
+#include <frc/Solenoid.h>
+#include <frc/DoubleSolenoid.h>
 
 const double accelMod = -.5;
 const double turnMod = .6;
@@ -24,7 +27,8 @@ enum gamePadConfig {
   boostButton = 3,
   shootButton = 4,
   sendT = 3,
-  sendF = 2
+  sendF = 2,
+  piston = 7
 };
 
 
@@ -42,8 +46,11 @@ class Robot : public frc::TimedRobot {
   void TestPeriodic() override;
 
  private:
+  bool arduino = false;
   TankDrive driveTrain{{3,4},{1,2}};
   frc::GenericHID driverPad1{port};
-  frc::SerialPort usbSensorHub{115200,frc::SerialPort::kUSB};
+  //frc::SerialPort usbSensorHub;
+  frc::Compressor Compressor{6,frc::PneumaticsModuleType::CTREPCM};
+  frc::DoubleSolenoid DoubleSolenoid{6,frc::PneumaticsModuleType::CTREPCM,2,3};
   rev::CANSparkMax shooterMotor{5,rev::CANSparkMaxLowLevel::MotorType::kBrushless};
 };
