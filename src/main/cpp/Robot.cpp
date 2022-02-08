@@ -7,6 +7,7 @@
 void Robot::RobotInit() {
   std::cout << "Starting" << std::endl;
   Compressor.EnableDigital();
+  frc::SerialPort myPort();
   /*
   try {
     frc::SerialPort usbSensorHub{115200,frc::SerialPort::kUSB};
