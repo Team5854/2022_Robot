@@ -6,21 +6,7 @@
 
 void Robot::RobotInit() {
   std::cout << "Starting" << std::endl;
-<<<<<<< HEAD
-  Compressor.EnableDigital();
-  frc::SerialPort myPort();
-  /*
-  try {
-    frc::SerialPort usbSensorHub{115200,frc::SerialPort::kUSB};
-    arduino = true;
-  }
-  catch(int e){
-    std::cout << "No arduino" << std::endl;
-  }
-  */
-=======
   Compressor.Disable();
->>>>>>> a9b07cc4fe0b5a2a35b3dbbff01b2ff7c20973db
 }
 
 void Robot::RobotPeriodic() {}
