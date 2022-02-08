@@ -14,6 +14,8 @@
 #include <frc/Compressor.h>
 #include <frc/Solenoid.h>
 #include <frc/DoubleSolenoid.h>
+#include <ctre/Phoenix.h>
+#include <ctime>
 
 const double accelMod = -.5;
 const double turnMod = .6;
@@ -26,7 +28,7 @@ enum gamePadConfig {
   rightDriveAxis = 3,
   boostButton = 3,
   shootButton = 4,
-  sendT = 3,
+  sendT = 1,
   sendF = 2,
   piston = 7
 };
@@ -49,8 +51,10 @@ class Robot : public frc::TimedRobot {
   bool arduino = false;
   TankDrive driveTrain{{3,4},{1,2}};
   frc::GenericHID driverPad1{port};
-  //frc::SerialPort usbSensorHub;
+  frc::SerialPort usbSensorHub{230400,frc::SerialPort::Port::kUSB};
   frc::Compressor Compressor{6,frc::PneumaticsModuleType::CTREPCM};
   frc::DoubleSolenoid DoubleSolenoid{6,frc::PneumaticsModuleType::CTREPCM,2,3};
-  rev::CANSparkMax shooterMotor{5,rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+  rev::CANSparkMax shooterMotor1{9,rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+  TalonFX shooterMotor{8};
+  std::clock_t time;
 };
