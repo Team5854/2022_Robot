@@ -6,6 +6,7 @@
 
 void Robot::RobotInit() {
   std::cout << "Starting" << std::endl;
+<<<<<<< HEAD
   Compressor.EnableDigital();
   frc::SerialPort myPort();
   /*
@@ -17,6 +18,9 @@ void Robot::RobotInit() {
     std::cout << "No arduino" << std::endl;
   }
   */
+=======
+  Compressor.Disable();
+>>>>>>> a9b07cc4fe0b5a2a35b3dbbff01b2ff7c20973db
 }
 
 void Robot::RobotPeriodic() {}
@@ -39,23 +43,34 @@ void Robot::TeleopPeriodic() {
   else driveTrain.Set(accelMod*driverPad1.GetRawAxis(accelerationAxis),turnMod*driverPad1.GetRawAxis(steeringAxis));
 }
 
-void Robot::DisabledInit() {
-  //usbSensorHub.Write("f");
-  std::cout << "I just ran write oppeartion with f" << std::endl;
-}
+void Robot::DisabledInit() {}
 
 void Robot::DisabledPeriodic() {}
 
 void Robot::TestInit() {
-  //usbSensorHub.Write("t");
-  std::cout << "I just ran write opperation with t" << std::endl;
+  usbSensorHub.Write("t");
+  time = clock()+(.5*CLOCKS_PER_SEC);
+  shooterMotor.Set(ControlMode::PercentOutput, .1);
+  Compressor.Disable();
 }
 
 void Robot::TestPeriodic() {
-  if(driverPad1.GetRawButton(shootButton)) shooterMotor.Set(1);
-  else shooterMotor.Set(0);
-  if(driverPad1.GetRawButton(piston)) DoubleSolenoid.Set(frc::DoubleSolenoid::kForward);
+  int pos;
+  /*if(driverPad1.GetRawButton(shootButton)) shooterMotor.Set(1);
+  else shooterMotor.Set(0);*/
+  if(driverPad1.GetRawButton(piston)) {
+    DoubleSolenoid.Set(frc::DoubleSolenoid::kForward);
+    std::cout << "What the fuck";
+  }
   else DoubleSolenoid.Set(frc::DoubleSolenoid::kReverse);
+  /*if(time <= clock()){
+    pos = shooterMotor.GetSensorCollection().GetIntegratedSensorVelocity()/2048;
+    std::cout << pos << std::endl;
+    time = clock()+(.5*CLOCKS_PER_SEC);
+  }*/
+  shooterMotor.Set(ControlMode::Velocity, 2000);
+  if(driverPad1.GetRawButtonPressed(sendT)) usbSensorHub.Write("t");
+  if(driverPad1.GetRawButtonPressed(sendF)) usbSensorHub.Write("f");
 }
 
 
