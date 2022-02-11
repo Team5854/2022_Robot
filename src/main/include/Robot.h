@@ -16,6 +16,7 @@
 #include <frc/DoubleSolenoid.h>
 #include <ctre/Phoenix.h>
 #include <ctime>
+#include "Arduino.h"
 
 const double accelMod = -.5;
 const double turnMod = .6;
@@ -48,7 +49,6 @@ class Robot : public frc::TimedRobot {
   void TestPeriodic() override;
 
  private:
-  bool arduino = false;
   TankDrive driveTrain{{3,4},{1,2}};
   frc::GenericHID driverPad1{port};
   frc::SerialPort usbSensorHub{230400,frc::SerialPort::Port::kUSB};
@@ -56,5 +56,6 @@ class Robot : public frc::TimedRobot {
   frc::DoubleSolenoid DoubleSolenoid{6,frc::PneumaticsModuleType::CTREPCM,2,3};
   rev::CANSparkMax shooterMotor1{9,rev::CANSparkMaxLowLevel::MotorType::kBrushless};
   TalonFX shooterMotor{8};
+  Arduino arduino{9600,frc::SerialPort::Port::kUSB};
   std::clock_t time;
 };

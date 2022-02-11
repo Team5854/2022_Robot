@@ -38,6 +38,7 @@ void Robot::TestInit() {
   time = clock()+(.5*CLOCKS_PER_SEC);
   shooterMotor.Set(ControlMode::PercentOutput, .1);
   Compressor.Disable();
+  arduino.initComms();
 }
 
 void Robot::TestPeriodic() {
