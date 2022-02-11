@@ -22,6 +22,7 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
+
 }
 
 void Robot::TeleopPeriodic() {
@@ -34,11 +35,10 @@ void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}
 
 void Robot::TestInit() {
-  usbSensorHub.Write("t");
   time = clock()+(.5*CLOCKS_PER_SEC);
-  shooterMotor.Set(ControlMode::PercentOutput, .1);
+  //shooterMotor.Set(ControlMode::PercentOutput, .1);
   Compressor.Disable();
-  arduino.initComms();
+  std::cout << arduino.initComms() << std::endl;
 }
 
 void Robot::TestPeriodic() {
@@ -47,7 +47,6 @@ void Robot::TestPeriodic() {
   else shooterMotor.Set(0);*/
   if(driverPad1.GetRawButton(piston)) {
     DoubleSolenoid.Set(frc::DoubleSolenoid::kForward);
-    std::cout << "What the fuck";
   }
   else DoubleSolenoid.Set(frc::DoubleSolenoid::kReverse);
   /*if(time <= clock()){
@@ -55,9 +54,10 @@ void Robot::TestPeriodic() {
     std::cout << pos << std::endl;
     time = clock()+(.5*CLOCKS_PER_SEC);
   }*/
-  shooterMotor.Set(ControlMode::Velocity, 2000);
-  if(driverPad1.GetRawButtonPressed(sendT)) usbSensorHub.Write("t");
-  if(driverPad1.GetRawButtonPressed(sendF)) usbSensorHub.Write("f");
+  //shooterMotor.Set(ControlMode::Velocity, 2000);
+  if(driverPad1.GetRawButtonPressed(sendT)) arduino.serialPortObj->Write("t");
+  if(driverPad1.GetRawButtonPressed(sendF)) arduino.serialPortObj->Write("f");
+  if(driverPad1.GetRawButtonPressed(12)) arduino.initComms();
 }
 
 
