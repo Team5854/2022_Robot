@@ -5,9 +5,10 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
-#include <frc2/command/Command.h>
-
-#include "RobotContainer.h"
+#include <frc/GenericHID.h>
+#include "Constants.h"
+#include "subsystems/Drivetrain.h"
+#include "commands/DrivetrainCommands.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -19,12 +20,11 @@ class Robot : public frc::TimedRobot {
   void AutonomousPeriodic() override;
   void TeleopInit() override;
   void TeleopPeriodic() override;
+  void TestInit() override;
   void TestPeriodic() override;
 
  private:
-  // Have it null by default so that if testing teleop it
-  // doesn't have undefined behavior and potentially crash.
-  frc2::Command* m_autonomousCommand = nullptr;
-
-  RobotContainer m_container;
+  frc::GenericHID driverPad1{port};
+  Drivetrain m_drivetrain{leftMotor1 ,leftMotor2 ,rightMotor1 ,rightMotor2};
+  CommandUserDrive m_commandUserDrive{&m_drivetrain,driverPad1};
 };

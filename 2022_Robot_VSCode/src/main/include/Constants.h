@@ -4,6 +4,26 @@
 
 #pragma once
 
+
+const double accelMod = -.5;
+const double turnMod = .6;
+const double boost = 3.5;
+enum gamePadConfig {
+  port = 0,
+  accelerationAxis = 1,
+  steeringAxis = 2,
+  leftDriveAxis = 1,
+  rightDriveAxis = 3,
+  boostButton = 3,
+};
+
+enum driveTrain{
+    leftMotor1 = 1,
+    leftMotor2 = 2,
+    rightMotor1 = 3,
+    rightMotor2 = 4
+};
+
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants.  This should not be used for any other

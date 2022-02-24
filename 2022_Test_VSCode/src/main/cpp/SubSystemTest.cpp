@@ -1,3 +1,3 @@
-#include <SubsystemTest.h>>
+#include "SubSystemTest.h"
 
-SolenoidShit::SolenoidShit(){};
+Solenoid::Solenoid(): DoubleSolenoid{6,frc::PneumaticsModuleType::CTREPCM,2,3}{};

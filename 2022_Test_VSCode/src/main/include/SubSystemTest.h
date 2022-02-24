@@ -4,9 +4,9 @@
 #include <frc/Solenoid.h>
 #include <frc/DoubleSolenoid.h>
 
-class SolenoidShit : public frc2::SubsystemBase{
+class Solenoid : public frc2::SubsystemBase{
   public:
-    SolenoidShit();
+    Solenoid();
   //Methods
   void ExtendAll();
   void RetractAll();
