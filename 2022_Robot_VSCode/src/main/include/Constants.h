@@ -4,10 +4,12 @@
 
 #pragma once
 
+// Acceleration mods
+const double accelMod = .35;
+const double turnMod = .5;
+const double boost = 1.6;
 
-const double accelMod = -.5;
-const double turnMod = .6;
-const double boost = 3.5;
+//Gamepad bindings
 enum gamePadConfig {
   port = 0,
   accelerationAxis = 1,
@@ -15,21 +17,29 @@ enum gamePadConfig {
   leftDriveAxis = 1,
   rightDriveAxis = 3,
   boostButton = 3,
+  intakeButton = 4,
+  shootButton = 2
 };
 
-enum driveTrain{
-    leftMotor1 = 1,
-    leftMotor2 = 2,
-    rightMotor1 = 3,
-    rightMotor2 = 4
+//CAN Ids and solenoid ports
+enum canIds {
+  stage1TalonId = 5,
+  stage2TalonId = 4,
+  stage3SparkId = 6,
+  leftFalconLeadId = 13,
+  leftFalconFollowId = 12,
+  rightFalconLeadId = 11,
+  rightFalconFollowId = 10,
+  compressorId = 8,
+  solenoidPort = 1
 };
 
-/**
- * The Constants header provides a convenient place for teams to hold robot-wide
- * numerical or boolean constants.  This should not be used for any other
- * purpose.
- *
- * It is generally a good idea to place constants into subsystem- or
- * command-specific namespaces within this header, which can then be used where
- * they are needed.
- */
+
+
+//Shooter parameters
+const double intakeBeltSpeed = .3;
+const double shootBeltSpeed = .5;
+const double shootSpeed = .5;
+const int intakeTimeout = 750;
+const int shootStartTime = 500;
+const int shootTimeout = 500;

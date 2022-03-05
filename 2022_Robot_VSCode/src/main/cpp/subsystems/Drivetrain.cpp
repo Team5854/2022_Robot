@@ -1,8 +1,5 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #include "subsystems/Drivetrain.h"
+#include <frc2/command/CommandScheduler.h>
 
 Drivetrain::Drivetrain(int leftLead, int leftFollow, int rightLead, int rightFollow)
   : m_leftLead{leftLead}, m_leftFollow{leftFollow}, m_rightLead{rightLead}, m_rightFollow{rightFollow}
@@ -11,6 +8,7 @@ Drivetrain::Drivetrain(int leftLead, int leftFollow, int rightLead, int rightFol
   m_rightLead.SetInverted(true);
   m_rightFollow.SetInverted(true);
   m_rightFollow.Follow(m_rightLead);
+  frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
 }
 
 void Drivetrain::Set(double forward, double rotation){// Sets the speed of the motor groups based off of forward and rotational values
@@ -23,12 +21,12 @@ void Drivetrain::Set(double forward, double rotation){// Sets the speed of the m
   }
   else{ 
     if(true){
-      m_leftLead.Set(ControlMode::PercentOutput, Drivetrain::PercentRange(forward+rotation)); //Left side + rotation (slows when negative meaning left turn, and speeds up for positive)
-      m_rightLead.Set(ControlMode::PercentOutput, Drivetrain::PercentRange(forward-rotation)); //Right side - rotation (reverse of above)
+      m_leftLead.Set(ControlMode::PercentOutput, Drivetrain::PercentRange(forward-rotation)); //Left side + rotation (slows when negative meaning left turn, and speeds up for positive)
+      m_rightLead.Set(ControlMode::PercentOutput, Drivetrain::PercentRange(forward+rotation)); //Right side - rotation (reverse of above)
     }
     else{ // The same as above but flipped so rotation is inverted
-      m_leftLead.Set(ControlMode::PercentOutput, Drivetrain::PercentRange(forward-rotation));
-      m_rightLead.Set(ControlMode::PercentOutput, Drivetrain::PercentRange(forward+rotation));
+      m_leftLead.Set(ControlMode::PercentOutput, Drivetrain::PercentRange(forward+rotation));
+      m_rightLead.Set(ControlMode::PercentOutput, Drivetrain::PercentRange(forward-rotation));
     }
   }
 }
