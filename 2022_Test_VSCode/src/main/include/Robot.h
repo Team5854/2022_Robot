@@ -49,12 +49,13 @@ class Robot : public frc::TimedRobot {
   void TestPeriodic() override;
 
  private:
-  TankDrive driveTrain{{3,4},{1,2}};
+  //TankDrive driveTrain{{3,4},{1,2}};
   frc::GenericHID driverPad1{port};
-  frc::Compressor Compressor{6,frc::PneumaticsModuleType::CTREPCM};
-  frc::DoubleSolenoid DoubleSolenoid{6,frc::PneumaticsModuleType::CTREPCM,2,3};
-  rev::CANSparkMax shooterMotor1{9,rev::CANSparkMaxLowLevel::MotorType::kBrushless};
-  //TalonFX shooterMotor{8};
-  Arduino arduino{115200,frc::SerialPort::Port::kUSB};
+  //frc::Compressor Compressor{6,frc::PneumaticsModuleType::CTREPCM};
+  //frc::DoubleSolenoid DoubleSolenoid{6,frc::PneumaticsModuleType::CTREPCM,2,3};
+  rev::CANSparkMax shooterMotor1{6,rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+  TalonFX shooterMotor2{11};
+  TalonFX shooterMotor3{10};
+  //Arduino arduino{115200,frc::SerialPort::Port::kUSB};
   std::clock_t time;
 };
