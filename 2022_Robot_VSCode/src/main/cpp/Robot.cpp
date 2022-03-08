@@ -16,7 +16,10 @@ void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
 }
 
-void Robot::DisabledInit() {}
+void Robot::DisabledInit() {
+  shootButtonTrigger.WhenPressed(nullptr);
+  intakeButtonTrigger.WhenPressed(nullptr);
+}
 
 void Robot::DisabledPeriodic() {}
 
@@ -31,7 +34,9 @@ void Robot::TeleopInit() {
   std::cout << "Telopinit" << std::endl;
 }
 
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+  std::cout << "Telopinit schedule: " << frc2::CommandScheduler::GetInstance().IsScheduled(&m_intakeCommand) << std::endl;
+}
 
 void Robot::TeleopExit(){
   m_commandUserDrive.Cancel();
@@ -39,11 +44,16 @@ void Robot::TeleopExit(){
   intakeButtonTrigger.WhenPressed(nullptr);
 }
 
-void Robot::TestInit() {}
-  
-void Robot::TestPeriodic() {
-  
+void Robot::TestInit() {
+  shootButtonTrigger.WhenPressed([this](){
+    std::cout << m_shooterIntake.getBreakBeam1() << std::endl;
+  });
+  intakeButtonTrigger.WhenPressed([this](){
+    std::cout << m_shooterIntake.getBreakBeam2() << std::endl;
+  });
 }
+  
+void Robot::TestPeriodic() {}
 
 #ifndef RUNNING_FRC_TESTS
 int main() {

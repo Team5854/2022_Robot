@@ -16,9 +16,9 @@ enum gamePadConfig {
   steeringAxis = 2,
   leftDriveAxis = 1,
   rightDriveAxis = 3,
-  boostButton = 3,
-  intakeButton = 4,
-  shootButton = 2
+  boostButton = 6,
+  intakeButton = 2,
+  shootButton = 1
 };
 
 //CAN Ids and solenoid ports
@@ -31,15 +31,15 @@ enum canIds {
   rightFalconLeadId = 11,
   rightFalconFollowId = 10,
   compressorId = 8,
-  solenoidPort = 1
+  solenoidPort = 0
 };
 
 
 
 //Shooter parameters
-const double intakeBeltSpeed = .3;
-const double shootBeltSpeed = .5;
-const double shootSpeed = .5;
-const int intakeTimeout = 750;
+const double intakeBeltSpeed = .5;
+const double shootBeltSpeed = .4;
+const double shootSpeed = .8;
+const int intakeTimeout = 1200;
 const int shootStartTime = 500;
-const int shootTimeout = 500;
+const int shootTimeout = 1200;

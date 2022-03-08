@@ -14,7 +14,7 @@ class IntakeCommand : public frc2::CommandHelper<frc2::CommandBase, IntakeComman
   explicit IntakeCommand(ShooterIntake* shooterIntake, frc::GenericHID& controller);
 
   void Execute();
-  void End();
+  void End(bool interrupted);
   bool IsFinished();
 
  private:
@@ -28,7 +28,7 @@ class ShootCommand : public frc2::CommandHelper<frc2::CommandBase, ShootCommand>
   explicit ShootCommand(ShooterIntake* shooterIntake, frc::GenericHID& controller);
   void Initialize();
   void Execute();
-  void End();
+  void End(bool interrupted);
   bool IsFinished();
 
  private:

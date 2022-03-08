@@ -16,29 +16,30 @@ void IntakeCommand::Execute(){
     if(!m_shooterIntake->getBreakBeam2()||!m_shooterIntake->m_balls[1]){
         m_shooterIntake->stage2Run(intakeBeltSpeed);
         m_shooterIntake->stage1Run(intakeBeltSpeed);
+        m_shooterIntake->m_balls[1] = m_shooterIntake->getBreakBeam2();
     }
     else if(!m_shooterIntake->getBreakBeam1()||!m_shooterIntake->m_balls[0]){
-        m_shooterIntake->m_balls[1] = true;
         m_shooterIntake->stage2Run(0);
         m_shooterIntake->stage1Run(intakeBeltSpeed);
+        m_shooterIntake->m_balls[0] = m_shooterIntake->getBreakBeam1();
     }
     else{
-        m_shooterIntake->m_balls[0] = true;
         m_shooterIntake->stage2Run(0);
         m_shooterIntake->stage1Run(0);
     }
 }
 
-void IntakeCommand::End(){
+void IntakeCommand::End(bool interrupted){
     m_shooterIntake->setIntake(false);
     m_shooterIntake->stage1Run(0);
     m_shooterIntake->stage2Run(0);
+    std::cout << "Stopping" << std::endl;
 }
 
 bool IntakeCommand::IsFinished(){
     if(m_shooterIntake->m_balls[0]&&m_shooterIntake->m_balls[1]) return true;
     else if(std::chrono::steady_clock::now() > timeout) return true;
-    else return false;
+    return false;
 }
 
 ShootCommand::ShootCommand(ShooterIntake* shooterIntake, frc::GenericHID& controller):
@@ -83,12 +84,13 @@ void ShootCommand::Execute(){
     }
 }
 
-void ShootCommand::End(){
+void ShootCommand::End(bool interrupted){
     m_shooterIntake->stage1Run(0);
     m_shooterIntake->stage2Run(0);
 }
 
 bool ShootCommand::IsFinished(){
-    if(std::chrono::steady_clock::now() > timeout) return true;
+    if(m_shooterIntake->m_balls[0]&&m_shooterIntake->m_balls[1]) return true;
+    if(std::chrono::steady_clock::now() > timeout) return true; 
     else return false;
 }
