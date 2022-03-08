@@ -90,7 +90,6 @@ void ShootCommand::End(bool interrupted){
 }
 
 bool ShootCommand::IsFinished(){
-    if(m_shooterIntake->m_balls[0]&&m_shooterIntake->m_balls[1]) return true;
     if(std::chrono::steady_clock::now() > timeout) return true; 
     else return false;
 }
