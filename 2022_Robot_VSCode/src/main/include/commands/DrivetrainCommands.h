@@ -12,6 +12,7 @@ class CommandUserDrive
  public:
   explicit CommandUserDrive(Drivetrain* drivetrain, frc::GenericHID& controller);
   void Execute();
+  void End(bool interrupted);
 
  private:
   Drivetrain* m_drivetrain;

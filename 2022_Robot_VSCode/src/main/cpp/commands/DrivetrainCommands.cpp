@@ -14,3 +14,7 @@ void CommandUserDrive::Execute(){
   if(m_controller.GetRawButton(boostButton)) m_drivetrain->Set(Drivetrain::PercentRange(boost*accelMod*m_controller.GetRawAxis(accelerationAxis)),Drivetrain::PercentRange(turnMod*m_controller.GetRawAxis(steeringAxis)));
   else m_drivetrain->Set(accelMod*m_controller.GetRawAxis(accelerationAxis),turnMod*m_controller.GetRawAxis(steeringAxis));
 }
+
+void CommandUserDrive::End(bool interrupted){
+  m_drivetrain->Set(0,0);
+}

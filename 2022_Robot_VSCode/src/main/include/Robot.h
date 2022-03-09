@@ -13,6 +13,8 @@
 #include "commands/DrivetrainCommands.h"
 #include "subsystems/ShooterIntake.h"
 #include "commands/ShooterIntakeCommands.h"
+#include "subsystems/Climber.h"
+#include "commands/ClimbCommands.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -34,11 +36,14 @@ class Robot : public frc::TimedRobot {
 
   Drivetrain m_drivetrain{leftFalconLeadId, leftFalconFollowId, rightFalconLeadId, rightFalconFollowId};
   ShooterIntake m_shooterIntake{stage3SparkId, stage2TalonId, stage1TalonId, m_compressor, solenoidPort, 0, 1,{0,0,0}};
+  Climber m_climber{climberLeadId, climberFollowId, climberRotateId, {0,0,0}};
 
   CommandUserDrive m_commandUserDrive{&m_drivetrain, m_driverPad1};
   IntakeCommand m_intakeCommand{&m_shooterIntake, m_driverPad1};
   ShootCommand m_shootCommand{&m_shooterIntake, m_driverPad1};
+  ClimbCommand m_climbCommand{&m_climber, &m_drivetrain, &m_shooterIntake, m_driverPad1};
 
   frc2::JoystickButton shootButtonTrigger{&m_driverPad1, shootButton};
   frc2::JoystickButton intakeButtonTrigger{&m_driverPad1, intakeButton};
+  frc2::JoystickButton climberButtonTrigger{&m_driverPad1, startClimbButton};
 };

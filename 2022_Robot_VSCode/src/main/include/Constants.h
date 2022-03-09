@@ -23,6 +23,9 @@ enum gamePadConfig {
 
 //CAN Ids and solenoid ports
 enum canIds {
+  climberLeadId = 1,
+  climberFollowId = 2,
+  climberRotateId = 3,
   stage1TalonId = 5,
   stage2TalonId = 4,
   stage3SparkId = 6,
@@ -33,6 +36,20 @@ enum canIds {
   compressorId = 8,
   solenoidPort = 0
 };
+
+//Climber things
+enum climbBinds{
+  climbAxis = 1,
+  rotateAxis = 2,
+  startClimbButton = 13,
+  climbFinishedButton = 14
+};
+
+const double climbSpeed = .2;
+const double rotateSpeed = .5;
+const double holdSpeed = .1;
+const double climbDriveSpeed = .05;
+const double climbRotateSpeed = .05;
 
 
 

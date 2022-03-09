@@ -28,10 +28,15 @@ void Robot::TeleopInit() {
   m_commandUserDrive.Schedule();
   shootButtonTrigger.WhenPressed(&m_shootCommand,false);
   intakeButtonTrigger.WhenPressed(&m_intakeCommand,false);
+  climberButtonTrigger.ToggleWhenPressed(&m_climbCommand);
   std::cout << "Telopinit" << std::endl;
 }
 
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+  if(!frc2::CommandScheduler::GetInstance().IsScheduled(&m_commandUserDrive)&&!frc2::CommandScheduler::GetInstance().IsScheduled(&m_climbCommand)){
+    m_commandUserDrive.Schedule();
+  }
+}
 
 void Robot::TeleopExit(){
   m_commandUserDrive.Cancel();
