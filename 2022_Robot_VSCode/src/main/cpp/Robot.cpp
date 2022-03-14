@@ -28,7 +28,7 @@ void Robot::TeleopInit() {
   m_commandUserDrive.Schedule();
   shootButtonTrigger.WhenPressed(&m_shootCommand,false);
   intakeButtonTrigger.WhenPressed(&m_intakeCommand,false);
-  climberButtonTrigger.ToggleWhenPressed(&m_climbCommand);
+  //climberButtonTrigger.ToggleWhenPressed(&m_climbCommand);
   std::cout << "Telopinit" << std::endl;
 }
 

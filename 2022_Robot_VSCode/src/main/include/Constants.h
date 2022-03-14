@@ -6,19 +6,19 @@
 
 // Acceleration mods
 const double accelMod = .35;
-const double turnMod = .3;
-const double boost = 1.6;
+const double turnMod = .25;
+const double boost = 2.8;
 
 //Gamepad bindings
 enum gamePadConfig {
   port = 0,
   accelerationAxis = 1,
-  steeringAxis = 0,
+  steeringAxis = 2,
   leftDriveAxis = 1,
   rightDriveAxis = 3,
   boostButton = 6,
-  intakeButton = 2,
-  shootButton = 1
+  intakeButton = 8,
+  shootButton = 7
 };
 
 //CAN Ids and solenoid ports
@@ -52,11 +52,10 @@ const double climbDriveSpeed = .05;
 const double climbRotateSpeed = .05;
 
 
-
 //Shooter parameters
-const double intakeBeltSpeed = .5;
-const double shootBeltSpeed = .4;
-const double shootSpeed = 1;
-const int intakeTimeout = 1800;
+const double intakeBeltSpeed = .7;
+const double shootBeltSpeed = .5;
+const double shootSpeed = 0.8;
+const int intakeTimeout = 1500;
 const int shootStartTime = 2000;
 const int shootTimeout = 1200;

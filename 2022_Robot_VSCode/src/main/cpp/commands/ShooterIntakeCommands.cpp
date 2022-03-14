@@ -13,12 +13,12 @@ void IntakeCommand::Execute(){
     else{
         m_shooterIntake->setIntake(false);
     }
-    if(!m_shooterIntake->getBreakBeam2()||!m_shooterIntake->m_balls[1]){
+    if(!m_shooterIntake->getBreakBeam2()&&!m_shooterIntake->m_balls[1]){
         m_shooterIntake->stage2Run(intakeBeltSpeed);
         m_shooterIntake->stage1Run(intakeBeltSpeed);
         m_shooterIntake->m_balls[1] = m_shooterIntake->getBreakBeam2();
     }
-    else if(!m_shooterIntake->getBreakBeam1()||!m_shooterIntake->m_balls[0]){
+    else if(!m_shooterIntake->getBreakBeam1()&&!m_shooterIntake->m_balls[0]){
         m_shooterIntake->stage2Run(0);
         m_shooterIntake->stage1Run(intakeBeltSpeed);
         m_shooterIntake->m_balls[0] = m_shooterIntake->getBreakBeam1();
@@ -49,6 +49,8 @@ ShootCommand::ShootCommand(ShooterIntake* shooterIntake, frc::GenericHID& contro
 
 void ShootCommand::Initialize(){
     startup = std::chrono::steady_clock::now() + std::chrono::milliseconds(shootStartTime);
+    m_shooterIntake->m_balls[0] = false;
+    m_shooterIntake->m_balls[1] = false;
 }
 
 void ShootCommand::Execute(){
