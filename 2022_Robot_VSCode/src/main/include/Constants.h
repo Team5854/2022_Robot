@@ -45,11 +45,11 @@ enum climbBinds{
   climbFinishedButton = 14
 };
 
-const double climbSpeed = .2;
-const double rotateSpeed = .5;
+const double climbSpeed = .4;
+const double rotateSpeed = .375;
 const double holdSpeed = .1;
-const double climbDriveSpeed = .05;
-const double climbRotateSpeed = .05;
+const double climbDriveSpeed = .15;
+const double climbRotateSpeed = .15;
 
 
 //Shooter parameters
@@ -59,3 +59,6 @@ const double shootSpeed = 0.8;
 const int intakeTimeout = 1500;
 const int shootStartTime = 2000;
 const int shootTimeout = 1200;
+
+//Auto parameters
+const int initialMovement = 2000;

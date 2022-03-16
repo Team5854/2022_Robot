@@ -7,6 +7,7 @@
 #include <frc/TimedRobot.h>
 #include <frc/GenericHID.h>
 #include <frc2/command/button/JoystickButton.h>
+#include <cameraserver/CameraServer.h>
 
 #include "Constants.h"
 #include "subsystems/Drivetrain.h"
@@ -36,7 +37,7 @@ class Robot : public frc::TimedRobot {
 
   Drivetrain m_drivetrain{leftFalconLeadId, leftFalconFollowId, rightFalconLeadId, rightFalconFollowId};
   ShooterIntake m_shooterIntake{stage3SparkId, stage2TalonId, stage1TalonId, m_compressor, solenoidPort, 0, 1,{0,0,0}};
-  Climber m_climber{climberLeadId, climberFollowId, climberRotateId, {0,0,0}};
+  Climber m_climber{climberLeadId, climberFollowId, climberRotateId, {1,0,0}};
 
   CommandUserDrive m_commandUserDrive{&m_drivetrain, m_driverPad1};
   IntakeCommand m_intakeCommand{&m_shooterIntake, m_driverPad1};

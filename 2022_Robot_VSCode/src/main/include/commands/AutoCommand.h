@@ -14,8 +14,8 @@ class AutoCommand
  public:
     explicit AutoCommand(Drivetrain* drivetrain, ShooterIntake* shooterIntake,frc::GenericHID& controller);
 
-    //void Initialize();
-    void Execute();
+    void Initialize();
+    void Execute(double speed);
     void End(bool interrupted);
     bool IsFinished();
     
@@ -23,4 +23,6 @@ private:
   ShooterIntake* m_shooterIntake;     
   Drivetrain* m_drivetrain;
   frc::GenericHID& m_controller;
+  std::chrono::time_point<std::chrono::steady_clock> movementDistance;
+  std::chrono::time_point<std::chrono::steady_clock> movementBack;
 };

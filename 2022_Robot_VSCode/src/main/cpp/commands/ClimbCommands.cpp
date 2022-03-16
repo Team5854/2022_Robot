@@ -10,20 +10,20 @@ void ClimbCommand::Initialize(){
 }
 
 void ClimbCommand::Execute(){
-    m_climber->climb(climbSpeed*m_controller.GetRawAxis(climbAxis));
+    m_climber->climb(-1*climbSpeed*m_controller.GetRawAxis(climbAxis));
     m_climber->rotate(rotateSpeed*m_controller.GetRawAxis(rotateAxis));
 
     if(m_controller.GetPOV() == 0){
-        m_drivetrain->Set(climbDriveSpeed,0);
-    }
-    else if(m_controller.GetPOV() == 0){
-        m_drivetrain->Set(0,climbRotateSpeed);
-    }
-    else if(m_controller.GetPOV() == 0){
         m_drivetrain->Set(-climbDriveSpeed,0);
     }
-    else if(m_controller.GetPOV() == 0){
+    else if(m_controller.GetPOV() == 90){
         m_drivetrain->Set(0,climbRotateSpeed);
+    }
+    else if(m_controller.GetPOV() == 180){
+        m_drivetrain->Set(climbDriveSpeed,0);
+    }
+    else if(m_controller.GetPOV() == 270){
+        m_drivetrain->Set(0,-climbRotateSpeed);
     }
     else{
         m_drivetrain->Set(0,0);
