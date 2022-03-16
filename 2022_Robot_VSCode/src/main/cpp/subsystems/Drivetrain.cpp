@@ -47,3 +47,10 @@ double Drivetrain::PercentRange(double in){// Constrains the input to a range of
   else if(in < -1) return -1;
   else return in;
 }
+
+double Drivetrain::NonLinear(double in){
+  if(abs(in)<.7){
+    return in;
+  }
+  else return pow(in,3);
+}

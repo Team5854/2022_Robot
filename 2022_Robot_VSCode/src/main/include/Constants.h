@@ -6,7 +6,9 @@
 
 // Acceleration mods
 const double accelMod = .35;
+const double accelRamp = .05;
 const double turnMod = .25;
+const double turnRamp = .05;
 const double boost = 2.8;
 
 //Gamepad bindings
@@ -17,6 +19,7 @@ enum gamePadConfig {
   leftDriveAxis = 1,
   rightDriveAxis = 3,
   boostButton = 6,
+  brakeButton = 12,
   intakeButton = 8,
   shootButton = 7
 };
@@ -45,11 +48,11 @@ enum climbBinds{
   climbFinishedButton = 14
 };
 
-const double climbSpeed = .4;
+const double climbSpeed = .5;
 const double rotateSpeed = .375;
 const double holdSpeed = .1;
-const double climbDriveSpeed = .15;
-const double climbRotateSpeed = .15;
+const double climbDriveSpeed = .1;
+const double climbRotateSpeed = .075;
 
 
 //Shooter parameters

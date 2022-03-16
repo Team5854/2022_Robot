@@ -3,6 +3,7 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 #include <frc/GenericHID.h>
+#include <chrono>
 #include "Constants.h"
 
 #include "subsystems/Drivetrain.h"
@@ -17,4 +18,6 @@ class CommandUserDrive
  private:
   Drivetrain* m_drivetrain;
   frc::GenericHID& m_controller;
+  double accelSpeed = 0;
+  double turnSpeed = 0;
 };

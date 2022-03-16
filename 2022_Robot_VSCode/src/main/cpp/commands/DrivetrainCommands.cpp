@@ -11,8 +11,20 @@ CommandUserDrive::CommandUserDrive(Drivetrain* drivetrain, frc::GenericHID& cont
     }
 
 void CommandUserDrive::Execute(){
-  if(m_controller.GetRawButton(boostButton)) m_drivetrain->Set(Drivetrain::PercentRange(boost*accelMod*m_controller.GetRawAxis(accelerationAxis)),Drivetrain::PercentRange(turnMod*m_controller.GetRawAxis(steeringAxis)));
-  else m_drivetrain->Set(accelMod*m_controller.GetRawAxis(accelerationAxis),turnMod*m_controller.GetRawAxis(steeringAxis));
+  accelSpeed += (Drivetrain::NonLinear(m_controller.GetRawAxis(accelerationAxis)) - accelSpeed)*accelRamp;
+  turnSpeed += (Drivetrain::NonLinear(m_controller.GetRawAxis(steeringAxis)) - turnSpeed)*turnRamp;
+
+  if(m_controller.GetRawButton(brakeButton)){
+    accelSpeed = 0;
+    turnSpeed = 0;
+  }
+
+  if(m_controller.GetRawButton(boostButton)){
+    m_drivetrain->Set(Drivetrain::PercentRange(boost*accelMod*accelSpeed), Drivetrain::PercentRange(turnMod*turnSpeed));
+  }
+  else{
+    m_drivetrain->Set(Drivetrain::PercentRange(accelMod*accelSpeed), Drivetrain::PercentRange(turnMod*turnSpeed));
+  }
 }
 
 void CommandUserDrive::End(bool interrupted){

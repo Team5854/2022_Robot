@@ -6,7 +6,8 @@ IntakeCommand::IntakeCommand(ShooterIntake* shooterIntake, frc::GenericHID& cont
 }
 
 void IntakeCommand::Execute(){
-    if(m_controller.GetRawButton(intakeButton)){
+    if(m_controller.GetRawButtonPressed(intakeButton)) engaged = !engaged;
+    if(engaged){
         m_shooterIntake->setIntake(true);
         timeout = std::chrono::steady_clock::now() + std::chrono::milliseconds(intakeTimeout);
     }
@@ -33,7 +34,7 @@ void IntakeCommand::End(bool interrupted){
     m_shooterIntake->setIntake(false);
     m_shooterIntake->stage1Run(0);
     m_shooterIntake->stage2Run(0);
-    std::cout << "Stopping" << std::endl;
+    engaged = true;
 }
 
 bool IntakeCommand::IsFinished(){

@@ -4,7 +4,6 @@
 #include <frc2/command/CommandHelper.h>
 #include <frc/GenericHID.h>
 #include <chrono>
-#include <sys/time.h>
 
 #include "Constants.h"
 #include "subsystems/ShooterIntake.h"
@@ -16,6 +15,7 @@ class IntakeCommand : public frc2::CommandHelper<frc2::CommandBase, IntakeComman
   void Execute();
   void End(bool interrupted);
   bool IsFinished();
+    bool engaged;
 
  private:
   ShooterIntake* m_shooterIntake;
@@ -26,6 +26,7 @@ class IntakeCommand : public frc2::CommandHelper<frc2::CommandBase, IntakeComman
 class ShootCommand : public frc2::CommandHelper<frc2::CommandBase, ShootCommand> {
  public:
   explicit ShootCommand(ShooterIntake* shooterIntake, frc::GenericHID& controller);
+  
   void Initialize();
   void Execute();
   void End(bool interrupted);
