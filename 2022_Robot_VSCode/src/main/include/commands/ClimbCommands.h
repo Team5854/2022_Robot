@@ -12,7 +12,7 @@
 class ClimbCommand
     : public frc2::CommandHelper<frc2::CommandBase, ClimbCommand> {
  public:
-  explicit ClimbCommand(Climber* climber, Drivetrain* drivetrain, ShooterIntake* shooterIntake, frc::GenericHID& controller);
+  explicit ClimbCommand(Climber* climber, ShooterIntake* shooterIntake, Drivetrain* drivetrain, frc::GenericHID& controller);
 
   void Initialize();
   void Execute();

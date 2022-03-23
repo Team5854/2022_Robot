@@ -1,8 +1,8 @@
 # include "commands/ClimbCommands.h"
 
-ClimbCommand::ClimbCommand(Climber* climber, Drivetrain* drivetrain, ShooterIntake* shooterIntake, frc::GenericHID& controller):
-    m_climber{climber}, m_drivetrain{drivetrain}, m_shooterIntake{shooterIntake}, m_controller{controller} {
-        AddRequirements({climber, drivetrain, shooterIntake});
+ClimbCommand::ClimbCommand(Climber* climber, ShooterIntake* shooterIntake, Drivetrain* drivetrain, frc::GenericHID& controller):
+    m_climber{climber},m_shooterIntake{shooterIntake}, m_drivetrain{drivetrain}, m_controller{controller} {
+        AddRequirements({climber, drivetrain});
     }
 
 void ClimbCommand::Initialize(){
@@ -11,7 +11,7 @@ void ClimbCommand::Initialize(){
 
 void ClimbCommand::Execute(){
     m_climber->climb(-1*climbSpeed*m_controller.GetRawAxis(climbAxis));
-    m_climber->rotate(rotateSpeed*m_controller.GetRawAxis(rotateAxis));
+    m_climber->rotate(-1*rotateSpeed*m_controller.GetRawAxis(rotateAxis));
 
     if(m_controller.GetPOV() == 0){
         m_drivetrain->Set(-climbDriveSpeed,0);

@@ -5,15 +5,16 @@
 
 
 void Robot::RobotInit() {
-  std::cout << "Starting" << std::endl;
+  //std::cout << "Starting" << std::endl;
   //Compressor.Disable();
+  //shooterMotor2.Follow(shooterMotor1,true);
 }
 
 void Robot::RobotPeriodic() {}
 
 void Robot::AutonomousInit() {
-
-
+  //shooterMotor1.Set(.5);
+  //shooterMotor2.Set(-.5);
 }
 
 void Robot::AutonomousPeriodic() {
@@ -35,14 +36,14 @@ void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}
 
 void Robot::TestInit() {
-  time = clock()+(.5*CLOCKS_PER_SEC);
+  //time = clock()+(.5*CLOCKS_PER_SEC);
   //shooterMotor.Set(ControlMode::PercentOutput, .1);
   //Compressor.Disable();
   //std::cout << arduino.initComms() << std::endl;
 }
 
 void Robot::TestPeriodic() {
-  int pos;
+  /*int pos;
   if(driverPad1.GetRawButton(shootButton)) shooterMotor1.Set(.5);
   else shooterMotor1.Set(0);
   if(driverPad1.GetRawButton(piston)) {
@@ -53,10 +54,10 @@ void Robot::TestPeriodic() {
     //pos = shooterMotor.GetSensorCollection().GetIntegratedSensorVelocity()/2048;
     std::cout << pos << std::endl;
     time = clock()+(.5*CLOCKS_PER_SEC);
-  }
+  }*/
   //shooterMotor.Set(ControlMode::Velocity, 2000);
   //shooterMotor2.Set(ControlMode::PercentOutput, -1*driverPad1.GetRawAxis(1));
-  shooterMotor3.Set(ControlMode::PercentOutput, -1*driverPad1.GetRawAxis(1));
+  //shooterMotor3.Set(ControlMode::PercentOutput, -1*driverPad1.GetRawAxis(1));
   //if(driverPad1.GetRawButtonPressed(sendT)) arduino.serialPortObj->Write("t");
   //if(driverPad1.GetRawButtonPressed(sendF)) arduino.serialPortObj->Write("f");
   //if(driverPad1.GetRawButtonPressed(12)) arduino.initComms();

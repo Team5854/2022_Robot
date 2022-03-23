@@ -3,13 +3,18 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #pragma once
+#ifndef CONSTANTS
+#define CONSTANTS
+
+
+const bool pidEnabled = false;
 
 // Acceleration mods
-const double accelMod = .35;
-const double accelRamp = .05;
-const double turnMod = .25;
-const double turnRamp = .05;
-const double boost = 2.8;
+const double accelMod = .65; //Temp tuning enabled .7
+const double accelRamp = 8; //Temp tuning enabled 8
+const double turnMod = .3; //Temp tuning enabled .3
+const double turnRamp = 20; //Temp tuning enabled 20
+const double boost = 2; // 2
 
 //Gamepad bindings
 enum gamePadConfig {
@@ -18,10 +23,11 @@ enum gamePadConfig {
   steeringAxis = 2,
   leftDriveAxis = 1,
   rightDriveAxis = 3,
-  boostButton = 6,
+  boostButton = 8,
   brakeButton = 12,
-  intakeButton = 8,
-  shootButton = 7
+  intakeButton = 6,
+  shootButton = 7,
+  defaultSensorButton = 5
 };
 
 //CAN Ids and solenoid ports
@@ -31,7 +37,8 @@ enum canIds {
   climberRotateId = 3,
   stage1TalonId = 5,
   stage2TalonId = 4,
-  stage3SparkId = 6,
+  stage3LeadSparkId = 6,
+  stage3FollowSparkId = 7,
   leftFalconLeadId = 13,
   leftFalconFollowId = 12,
   rightFalconLeadId = 11,
@@ -48,20 +55,22 @@ enum climbBinds{
   climbFinishedButton = 14
 };
 
-const double climbSpeed = .5;
-const double rotateSpeed = .375;
+const double climbSpeed = .75; //Temp tuning enabled
+const double rotateSpeed = .375; //Temp tuning enabled
 const double holdSpeed = .1;
 const double climbDriveSpeed = .1;
 const double climbRotateSpeed = .075;
 
 
 //Shooter parameters
-const double intakeBeltSpeed = .7;
-const double shootBeltSpeed = .5;
-const double shootSpeed = 0.8;
-const int intakeTimeout = 1500;
+const double intakeBeltSpeed = .9;
+const double shootBeltSpeed = .7;
+const double shootSpeed = 0.42; //Temp tuning enabled
+const int intakeTimeout = 1500; //Used to be 1500
 const int shootStartTime = 2000;
-const int shootTimeout = 1200;
+const int shootTimeout = 1200;  //Used to be 1200
 
 //Auto parameters
 const int initialMovement = 2000;
+
+#endif

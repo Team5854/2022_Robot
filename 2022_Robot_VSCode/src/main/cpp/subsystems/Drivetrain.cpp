@@ -8,6 +8,10 @@ Drivetrain::Drivetrain(int leftLead, int leftFollow, int rightLead, int rightFol
   m_rightLead.SetInverted(true);
   m_rightFollow.SetInverted(true);
   m_rightFollow.Follow(m_rightLead);
+  m_leftLead.SetNeutralMode(NeutralMode::Coast);
+  m_leftFollow.SetNeutralMode(NeutralMode::Coast);
+  m_rightLead.SetNeutralMode(NeutralMode::Coast);
+  m_rightFollow.SetNeutralMode(NeutralMode::Coast);
   frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
 }
 
@@ -53,4 +57,12 @@ double Drivetrain::NonLinear(double in){
     return in;
   }
   else return pow(in,3);
+}
+
+double Drivetrain::GetLeftEncoders(){
+  return m_leftLead.GetSensorCollection().GetIntegratedSensorPosition();
+}
+
+double Drivetrain::GetRightEncoders(){
+  return m_rightLead.GetSensorCollection().GetIntegratedSensorPosition();
 }

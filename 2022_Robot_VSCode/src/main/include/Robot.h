@@ -4,6 +4,7 @@
 
 #pragma once
 
+
 #include <frc/TimedRobot.h>
 #include <frc/GenericHID.h>
 #include <frc2/command/button/JoystickButton.h>
@@ -16,6 +17,7 @@
 #include "commands/ShooterIntakeCommands.h"
 #include "subsystems/Climber.h"
 #include "commands/ClimbCommands.h"
+#include "subsystems/Arduino.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -34,17 +36,24 @@ class Robot : public frc::TimedRobot {
  private:
   frc::GenericHID m_driverPad1{port};
   frc::Compressor m_compressor{compressorId, frc::PneumaticsModuleType::CTREPCM};
+  //Arduino theSideCar{115200, frc::SerialPort::Port::kUSB1};
 
   Drivetrain m_drivetrain{leftFalconLeadId, leftFalconFollowId, rightFalconLeadId, rightFalconFollowId};
-  ShooterIntake m_shooterIntake{stage3SparkId, stage2TalonId, stage1TalonId, m_compressor, solenoidPort, 0, 1,{0,0,0}};
+  ShooterIntake m_shooterIntake{stage3LeadSparkId, stage2TalonId, stage1TalonId, m_compressor, solenoidPort, 0, 1,{0,1,0,0}};
   Climber m_climber{climberLeadId, climberFollowId, climberRotateId, {1,0,0}};
 
   CommandUserDrive m_commandUserDrive{&m_drivetrain, m_driverPad1};
-  IntakeCommand m_intakeCommand{&m_shooterIntake, m_driverPad1};
+  IntakeCommandDefault m_intakeCommand{&m_shooterIntake, m_driverPad1};
+  IntakeCommand m_intakeCommandIndex{&m_shooterIntake, m_driverPad1};
   ShootCommand m_shootCommand{&m_shooterIntake, m_driverPad1};
-  ClimbCommand m_climbCommand{&m_climber, &m_drivetrain, &m_shooterIntake, m_driverPad1};
+  ClimbCommand m_climbCommand{&m_climber, &m_shooterIntake, &m_drivetrain, m_driverPad1};
 
   frc2::JoystickButton shootButtonTrigger{&m_driverPad1, shootButton};
   frc2::JoystickButton intakeButtonTrigger{&m_driverPad1, intakeButton};
   frc2::JoystickButton climberButtonTrigger{&m_driverPad1, startClimbButton};
+
+  std::chrono::time_point<std::chrono::steady_clock> autodrive;
+
+  bool climbComplete = false;
+  bool sensorDefault = false;
 };

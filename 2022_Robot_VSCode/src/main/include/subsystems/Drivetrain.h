@@ -15,6 +15,8 @@ class Drivetrain : public frc2::SubsystemBase {
   void DiffSet(double leftSpeed, double rightSpeed); // Sets the left and right group motor speeds to the values passed
   static double PercentRange(double in);// Constrains the input to a range of -1 to 1 to prevent errors in motor speed
   static double NonLinear(double in);
+  double GetLeftEncoders();
+  double GetRightEncoders();
 
  private:
   TalonFX m_leftLead;
