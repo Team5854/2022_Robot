@@ -1,7 +1,8 @@
 #include "commands/ShooterIntakeCommands.h"
-#include <frc/Shuffleboard/Shuffleboard.h>
+#include <frc/shuffleboard/Shuffleboard.h>
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableEntry.h>
+#include "Constants.h"
 
 IntakeCommand::IntakeCommand(ShooterIntake* shooterIntake, frc::GenericHID& controller):
     m_shooterIntake{shooterIntake}, m_controller{controller} {
@@ -58,19 +59,17 @@ void ShootCommand::Initialize(){
     startup = std::chrono::steady_clock::now() + std::chrono::milliseconds(shootStartTime);
     m_shooterIntake->m_balls[0] = false;
     m_shooterIntake->m_balls[1] = false;
-    //m_shooterIntake->setPid(0,0,0,0);
+    m_shooterIntake->setPid(shooter_kF, shooter_kP, shooter_kI, shooter_kD);
 }
 
 void ShootCommand::Execute(){
     if(m_controller.GetRawButton(shootButton)){
         if(pidEnabled){
-            m_shooterIntake->setMotorPoint(m_shooterIntake->setPoint.GetDouble(0));
-            frc::SmartDashboard::PutNumber("Setpoint: ", m_shooterIntake->setPoint.GetDouble(0));
+            m_shooterIntake->setMotorPoint(shootSpeed);
         }
         else{
             m_shooterIntake->shootRun(shootSpeed);
         }
-        m_shooterIntake->shootRun(shootSpeed);
         timeout = std::chrono::steady_clock::now() + std::chrono::milliseconds(shootTimeout);
         if(std::chrono::steady_clock::now() > startup){
             m_shooterIntake->stage1Run(shootBeltSpeed);

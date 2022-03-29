@@ -12,21 +12,18 @@
 void Robot::RobotInit() {
   std::cout << "starting" << std::endl;
   frc::CameraServer::StartAutomaticCapture();
+  theSideCar.initComms();
 }
 
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
-  /*if (m_driverPad1.GetRawButtonPressed(climbFinishedButton)) climbComplete = true;
+  if (m_driverPad1.GetRawButtonPressed(climbFinishedButton)) climbComplete = !climbComplete;
   if(!climbComplete){
     if(frc2::CommandScheduler::GetInstance().IsScheduled(&m_climbCommand)){
-      if(m_climber.getRotateLimit() == 1){
-        theSideCar.serialPortObj->Write("l"); //Limit switch
-      }
-      else{
-        theSideCar.serialPortObj->Write("c"); // Climbing lights
-      }
+      if(m_climber.getRotateLimit() == 1) theSideCar.serialPortObj->Write("l"); //Limit switch
+      else theSideCar.serialPortObj->Write("c"); // Climbing lights
     }
-    else if(frc2::CommandScheduler::GetInstance().IsScheduled(&m_intakeCommand)){
+    else if(frc2::CommandScheduler::GetInstance().IsScheduled(&m_intakeCommandIndex)){
       if(m_shooterIntake.m_balls[0]&&m_shooterIntake.m_balls[1]) theSideCar.serialPortObj->Write("n");
       else if (!m_shooterIntake.m_balls[0]&&m_shooterIntake.m_balls[1]) theSideCar.serialPortObj->Write("I");
       else theSideCar.serialPortObj->Write("i");
@@ -39,8 +36,7 @@ void Robot::RobotPeriodic() {
       else theSideCar.serialPortObj->Write("N");
     }
   }
-  else theSideCar.serialPortObj->Write("F");*/
-
+  else theSideCar.serialPortObj->Write("F");
 }
 
 void Robot::DisabledInit() {}

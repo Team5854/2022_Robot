@@ -10,11 +10,12 @@
 #include <ctime>
 #include <frc/shuffleboard/Shuffleboard.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include "Constants.h"
 
 
 class ShooterIntake : public frc2::SubsystemBase {
  public:
-  ShooterIntake(int shooterLead, int stage2, int stage1, frc::Compressor& compressor, int solenoid, int breakbeam1, int breakbeam2,std::initializer_list<bool> motorConfigs);
+  ShooterIntake(int shooterLead, int shooterFollow, int stage2, int stage1, frc::Compressor& compressor, int solenoid, int breakbeam1, int breakbeam2,std::initializer_list<bool> motorConfigs);
   void setIntake(bool upDown);
   void stage1Run(double speed);
   void stage2Run(double speed);
@@ -22,18 +23,18 @@ class ShooterIntake : public frc2::SubsystemBase {
   bool getBreakBeam1();
   bool getBreakBeam2();
   void setPid(double kF, double kP, double kI, double kD);
-  void setMotorPoint(double setPoint);
+  void setMotorPoint(double setpoint);
   void Periodic();
 
   bool m_balls[2] = {false,false};
   frc::ShuffleboardTab& shooterConfigTab = frc::Shuffleboard::GetTab("Shooter Configs");
-  nt::NetworkTableEntry setPoint = shooterConfigTab.Add("Set Point", 0).GetEntry();
+  nt::NetworkTableEntry setPoint = shooterConfigTab.Add("Set Point", shootSpeed).GetEntry();
   
  private:
   rev::CANSparkMax m_shooterLead;
-  //rev::CANSparkMax m_shooterFollow;
-  //rev::SparkMaxPIDController m_PIDController;
-  //rev::SparkMaxRelativeEncoder m_Encoder;
+  rev::CANSparkMax m_shooterFollow;
+  rev::SparkMaxPIDController m_PIDController;
+  rev::SparkMaxRelativeEncoder m_Encoder;
   TalonSRX m_stage2;
   TalonSRX m_stage1;
   frc::Compressor& m_compressor;
