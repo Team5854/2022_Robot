@@ -39,8 +39,8 @@ class Robot : public frc::TimedRobot {
   Arduino theSideCar{115200, frc::SerialPort::Port::kUSB1};
 
   Drivetrain m_drivetrain{leftFalconLeadId, leftFalconFollowId, rightFalconLeadId, rightFalconFollowId};
-  ShooterIntake m_shooterIntake{stage3LeadSparkId, stage3FollowSparkId, stage2TalonId, stage1TalonId, m_compressor, solenoidPort, 0, 1,{0,1,0,0}};
-  Climber m_climber{climberLeadId, climberFollowId, climberRotateId, {1,0,0}};
+  ShooterIntake m_shooterIntake{stage3LeadSparkId, stage3FollowSparkId, stage2TalonId, stage1TalonId, m_compressor, solenoidPort, theSideCar, 0, 1,{0,1,0,0}};
+  Climber m_climber{climberLeadId, climberFollowId, climberRotateId, theSideCar, {1,0,0}};
 
   CommandUserDrive m_commandUserDrive{&m_drivetrain, m_driverPad1};
   IntakeCommandDefault m_intakeCommand{&m_shooterIntake, m_driverPad1};
@@ -54,6 +54,5 @@ class Robot : public frc::TimedRobot {
 
   std::chrono::time_point<std::chrono::steady_clock> autodrive;
 
-  bool climbComplete = false;
   bool sensorDefault = false;
 };

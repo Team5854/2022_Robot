@@ -27,14 +27,17 @@ void IntakeCommand::Execute(){
     if(!m_shooterIntake->getBreakBeam2()&&!m_shooterIntake->m_balls[1]){
         m_shooterIntake->stage2Run(intakeBeltSpeed);
         m_shooterIntake->stage1Run(intakeBeltSpeed);
+        m_shooterIntake->setLeds(0);
     }
     else if(!m_shooterIntake->getBreakBeam1()&&!m_shooterIntake->m_balls[0]){
         m_shooterIntake->stage2Run(0);
         m_shooterIntake->stage1Run(intakeBeltSpeed);
+        m_shooterIntake->setLeds(1);
     }
     else{
         m_shooterIntake->stage2Run(0);
         m_shooterIntake->stage1Run(0);
+        m_shooterIntake->setLeds(2);
     }
 }
 
@@ -60,6 +63,7 @@ void ShootCommand::Initialize(){
     m_shooterIntake->m_balls[0] = false;
     m_shooterIntake->m_balls[1] = false;
     m_shooterIntake->setPid(shooter_kF, shooter_kP, shooter_kI, shooter_kD);
+    m_shooterIntake->setLeds(-1);
 }
 
 void ShootCommand::Execute(){
@@ -104,7 +108,7 @@ void ShootCommand::Execute(){
 void ShootCommand::End(bool interrupted){
     m_shooterIntake->stage1Run(0);
     m_shooterIntake->stage2Run(0);
-    m_shooterIntake->shootRun(0); 
+    m_shooterIntake->shootRun(0);
 }
 
 bool ShootCommand::IsFinished(){

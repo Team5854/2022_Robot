@@ -11,3 +11,16 @@ int Arduino::initComms(){
     return -1;
   }
 }
+
+int Arduino::sendState(char data){
+  try{
+    if(data != state){
+      state = data;
+      serialPortObj->Write(&state);
+    }
+    return 1;
+  }
+  catch(int e){
+    return -1;
+  }
+}

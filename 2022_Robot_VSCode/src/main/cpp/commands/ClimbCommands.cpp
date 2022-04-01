@@ -28,17 +28,22 @@ void ClimbCommand::Execute(){
     else{
         m_drivetrain->Set(0,0);
     }
+
+    if(m_climber->getRotateLimit() == 1) m_climber->setLeds(true); //Limit switch
+      else m_climber->setLeds(false);
 }
 
 void ClimbCommand::End(bool interrupted){
     m_drivetrain->Set(0,0);
     m_climber->climb(0);
     m_climber->rotate(0);
-
     m_shooterIntake->setIntake(false);
 }
 
 bool ClimbCommand::IsFinished(){
-    if(m_controller.GetRawButton(climbFinishedButton)) return true;
+    if(m_controller.GetRawButton(climbFinishedButton)){
+        m_climber->climbFinished = true;
+        return true;
+    }
     else return false;
 }

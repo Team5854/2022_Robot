@@ -17,26 +17,20 @@ void Robot::RobotInit() {
 
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
-  if (m_driverPad1.GetRawButtonPressed(climbFinishedButton)) climbComplete = !climbComplete;
-  if(!climbComplete){
-    if(frc2::CommandScheduler::GetInstance().IsScheduled(&m_climbCommand)){
-      if(m_climber.getRotateLimit() == 1) theSideCar.serialPortObj->Write("l"); //Limit switch
-      else theSideCar.serialPortObj->Write("c"); // Climbing lights
-    }
-    else if(frc2::CommandScheduler::GetInstance().IsScheduled(&m_intakeCommandIndex)){
-      if(m_shooterIntake.m_balls[0]&&m_shooterIntake.m_balls[1]) theSideCar.serialPortObj->Write("n");
-      else if (!m_shooterIntake.m_balls[0]&&m_shooterIntake.m_balls[1]) theSideCar.serialPortObj->Write("I");
-      else theSideCar.serialPortObj->Write("i");
-    }
-    else if(frc2::CommandScheduler::GetInstance().IsScheduled(&m_shootCommand)) theSideCar.serialPortObj->Write("s");
-    else if(m_driverPad1.GetRawButton(boostButton)) theSideCar.serialPortObj->Write("b");
-    else{
-      if(m_shooterIntake.m_balls[0]&&m_shooterIntake.m_balls[1]) theSideCar.serialPortObj->Write("n");
-      else if (!m_shooterIntake.m_balls[0]&&m_shooterIntake.m_balls[1]) theSideCar.serialPortObj->Write("o");
-      else theSideCar.serialPortObj->Write("N");
+  if(!m_climber.climbFinished){
+    if(!frc2::CommandScheduler::GetInstance().IsScheduled(&m_climbCommand)
+      &&!frc2::CommandScheduler::GetInstance().IsScheduled(&m_intakeCommandIndex)
+      &&!frc2::CommandScheduler::GetInstance().IsScheduled(&m_shootCommand))
+      {
+      if(m_driverPad1.GetRawButton(boostButton)) theSideCar.sendState('b');
+      else{
+        if(m_shooterIntake.m_balls[0]&&m_shooterIntake.m_balls[1]) m_shooterIntake.setLeds(2);
+        else if (!m_shooterIntake.m_balls[0]&&m_shooterIntake.m_balls[1]) theSideCar.sendState('o');
+        else theSideCar.sendState('N');
+      }
     }
   }
-  else theSideCar.serialPortObj->Write("F");
+  else theSideCar.sendState('F');
 }
 
 void Robot::DisabledInit() {}
@@ -74,13 +68,8 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-  if(!frc2::CommandScheduler::GetInstance().IsScheduled(&m_commandUserDrive)&&!frc2::CommandScheduler::GetInstance().IsScheduled(&m_climbCommand)){
-    m_commandUserDrive.Schedule();
-  }
-  if(m_driverPad1.GetRawButtonPressed(defaultSensorButton)) sensorDefault = !sensorDefault;
   if(sensorDefault)intakeButtonTrigger.WhenPressed(&m_intakeCommand,false);
   else intakeButtonTrigger.WhenPressed(&m_intakeCommandIndex,false);
-  frc::SmartDashboard::PutBoolean("Break beam sensors defaulted",sensorDefault);
 }
 
 void Robot::TeleopExit() {}

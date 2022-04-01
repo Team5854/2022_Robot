@@ -21,7 +21,7 @@ class ClimbCommand
 
  private:
   Climber* m_climber;
-  Drivetrain* m_drivetrain;
   ShooterIntake* m_shooterIntake;
+  Drivetrain* m_drivetrain;
   frc::GenericHID& m_controller;
 };
