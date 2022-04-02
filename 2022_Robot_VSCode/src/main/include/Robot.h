@@ -49,10 +49,9 @@ class Robot : public frc::TimedRobot {
   ClimbCommand m_climbCommand{&m_climber, &m_shooterIntake, &m_drivetrain, m_driverPad1};
 
   frc2::JoystickButton shootButtonTrigger{&m_driverPad1, shootButton};
-  frc2::JoystickButton intakeButtonTrigger{&m_driverPad1, intakeButton};
+  frc2::JoystickButton* intakeButtonTrigger;
   frc2::JoystickButton climberButtonTrigger{&m_driverPad1, startClimbButton};
 
   std::chrono::time_point<std::chrono::steady_clock> autodrive;
-
-  bool sensorDefault = false;
+  bool lastDefault = sensorsDefaulted;
 };

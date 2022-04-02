@@ -13,13 +13,13 @@ AutoCommand::AutoCommand(Drivetrain* drivetrain, ShooterIntake* shooterIntake,fr
 void AutoCommand::Initialize(){
     LeftInitial = m_drivetrain->GetLeftEncoders();
     RightInitial = m_drivetrain->GetRightEncoders();
-    startup = std::chrono::steady_clock::now() + std::chrono::milliseconds(shootStartTime);
+    startup = std::chrono::steady_clock::now() + std::chrono::milliseconds(k_shootStartTime);
     m_shooterIntake->m_balls[0] = false;
     m_shooterIntake->m_balls[1] = false;
 
 }
 void AutoCommand::Execute(){
-    m_shooterIntake->shootRun(shootSpeed);
+    m_shooterIntake->shootRun(k_shootSpeed);
     timeout = std::chrono::steady_clock::now() + std::chrono::milliseconds(shootTimeout);
     if(std::chrono::steady_clock::now() > startup){
         m_shooterIntake->stage1Run(shootBeltSpeed);

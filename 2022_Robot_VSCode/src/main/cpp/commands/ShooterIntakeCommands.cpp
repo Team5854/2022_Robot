@@ -59,7 +59,7 @@ ShootCommand::ShootCommand(ShooterIntake* shooterIntake, frc::GenericHID& contro
 }
 
 void ShootCommand::Initialize(){
-    startup = std::chrono::steady_clock::now() + std::chrono::milliseconds(shootStartTime);
+    startup = std::chrono::steady_clock::now() + std::chrono::milliseconds(int(m_shooterIntake->shooterStartTime.GetDouble(k_shootStartTime)));
     m_shooterIntake->m_balls[0] = false;
     m_shooterIntake->m_balls[1] = false;
     m_shooterIntake->setPid(shooter_kF, shooter_kP, shooter_kI, shooter_kD);
@@ -69,10 +69,10 @@ void ShootCommand::Initialize(){
 void ShootCommand::Execute(){
     if(m_controller.GetRawButton(shootButton)){
         if(pidEnabled){
-            m_shooterIntake->setMotorPoint(shootSpeed);
+            m_shooterIntake->setMotorPoint(m_shooterIntake->setPoint.GetDouble(k_shootSpeed));
         }
         else{
-            m_shooterIntake->shootRun(shootSpeed);
+            m_shooterIntake->shootRun(k_shootNoPid);
         }
         timeout = std::chrono::steady_clock::now() + std::chrono::milliseconds(shootTimeout);
         if(std::chrono::steady_clock::now() > startup){

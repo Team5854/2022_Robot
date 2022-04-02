@@ -8,6 +8,7 @@
 
 
 const bool pidEnabled = true;
+const bool sensorsDefaulted = false;
 
 // Acceleration mods
 const double accelMod = .65; //Temp tuning enabled .7
@@ -51,8 +52,8 @@ enum canIds {
 enum climbBinds{
   climbAxis = 1,
   rotateAxis = 2,
-  startClimbButton = 3,//13,
-  climbFinishedButton = 4//14
+  startClimbButton = 13,//13,
+  climbFinishedButton = 14//14
 };
 
 const double climbSpeed = .75; //Temp tuning enabled
@@ -64,10 +65,11 @@ const double climbRotateSpeed = .075;
 
 //Shooter parameters
 const double intakeBeltSpeed = .9;
-const double shootBeltSpeed = .5;
-const double shootSpeed = 3800; //Temp tuning enabled
+const double shootBeltSpeed = .6;
+const double k_shootSpeed = 3800; //Temp tuning enabled
+const double k_shootNoPid = .65;
 const int intakeTimeout = 1500; //Used to be 1500
-const int shootStartTime = 700;
+const int k_shootStartTime = 1000;
 const int shootTimeout = 1200;  //Used to be 1200
 
 const double shooter_kF = .00019;

@@ -29,7 +29,9 @@ class ShooterIntake : public frc2::SubsystemBase {
 
   bool m_balls[2] = {false,false};
   frc::ShuffleboardTab& shooterConfigTab = frc::Shuffleboard::GetTab("Shooter Configs");
-  nt::NetworkTableEntry setPoint = shooterConfigTab.Add("Set Point", shootSpeed).GetEntry();
+  nt::NetworkTableEntry setPoint = shooterConfigTab.Add("Set Point", k_shootSpeed).GetEntry();
+  nt::NetworkTableEntry shooterStartTime = shooterConfigTab.Add("Shooter spin-up time:", k_shootStartTime).GetEntry();
+  nt::NetworkTableEntry defaultSensors = shooterConfigTab.Add("Default sensors: ", sensorsDefaulted).WithWidget(frc::BuiltInWidgets::kToggleButton).GetEntry();
   
  private:
   rev::CANSparkMax m_shooterLead;
