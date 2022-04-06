@@ -38,16 +38,21 @@ void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}
 
 void Robot::AutonomousInit() {
-  autodrive = std::chrono::steady_clock::now() + std::chrono::milliseconds(k_shootStartTime + 5000);
-  m_shooterIntake.setPid(shooter_kF, shooter_kP, shooter_kI, shooter_kD);
+  /*autodrive = std::chrono::steady_clock::now() + std::chrono::milliseconds(k_shootStartTime + 4000);
+  m_shooterIntake.setPid(shooter_kF, shooter_kP, shooter_kI, shooter_kD);*/
+  m_autoIntake.Schedule();
 } 
 
 void Robot::AutonomousPeriodic() {
-  if((autodrive - std::chrono::milliseconds(5000)) > std::chrono::steady_clock::now()){
-    m_shooterIntake.setMotorPoint(m_shooterIntake.setPoint.GetDouble(k_shootSpeed));
+  if(!frc2::CommandScheduler::GetInstance().IsScheduled(&m_autoIntake)) m_autoShoot.Schedule();
+  /*double motorSpeed = m_shooterIntake.setPoint.GetDouble(k_shootSpeed);
+  if(m_shooterIntake.highLow.GetBoolean(false)) motorSpeed = m_shooterIntake.setPointHigh.GetDouble(k_shootSpeed);
+  else motorSpeed = m_shooterIntake.setPoint.GetDouble(k_shootSpeed);
+  if((autodrive - std::chrono::milliseconds(4000)) > std::chrono::steady_clock::now()){
+    m_shooterIntake.setMotorPoint(motorSpeed);
   }
-  else if((autodrive - std::chrono::milliseconds(3000)) > std::chrono::steady_clock::now()){
-    m_shooterIntake.stage1Run(intakeBeltSpeed);
+  else if((autodrive - std::chrono::milliseconds(2000)) > std::chrono::steady_clock::now()){
+    m_shooterIntake.stage1Run(shootBeltSpeed);
     m_shooterIntake.stage2Run(shootBeltSpeed);
   }
   else if(autodrive > std::chrono::steady_clock::now()){
@@ -56,7 +61,7 @@ void Robot::AutonomousPeriodic() {
     m_shooterIntake.stage1Run(0);
     m_shooterIntake.stage2Run(0);
   }
-  else m_drivetrain.Set(0,0);
+  else m_drivetrain.Set(0,0);*/
 }
 
 void Robot::TeleopInit() {
@@ -64,7 +69,7 @@ void Robot::TeleopInit() {
   shootButtonTrigger.WhenPressed(&m_shootCommand,false);
   intakeButtonTrigger = new frc2::JoystickButton{&m_driverPad1, intakeButton};
   intakeButtonTrigger->WhenPressed(&m_intakeCommandIndex);
-  /*if(m_shooterIntake.defaultSensors.GetBoolean(false) != lastDefault){
+  if(m_shooterIntake.defaultSensors.GetBoolean(false) != lastDefault){
     lastDefault = m_shooterIntake.defaultSensors.GetBoolean(false);
     delete intakeButtonTrigger;
     if(m_shooterIntake.defaultSensors.GetBoolean(false)){
@@ -75,13 +80,13 @@ void Robot::TeleopInit() {
       intakeButtonTrigger = new frc2::JoystickButton{&m_driverPad1, intakeButton};
       intakeButtonTrigger->WhenPressed(&m_intakeCommandIndex,false);
     }
-  }*/
+  }
   climberButtonTrigger.ToggleWhenPressed(&m_climbCommand);
   std::cout << "Telopinit" << std::endl;
 }
 
 void Robot::TeleopPeriodic() {
-  /*if(m_shooterIntake.defaultSensors.GetBoolean(false) != lastDefault){
+  if(m_shooterIntake.defaultSensors.GetBoolean(false) != lastDefault){
     lastDefault = m_shooterIntake.defaultSensors.GetBoolean(false);
     delete intakeButtonTrigger;
     if(m_shooterIntake.defaultSensors.GetBoolean(false)){
@@ -95,16 +100,17 @@ void Robot::TeleopPeriodic() {
       std::cout << "Changed to index" << std::endl;
     }
     std::cout << "Change made                                                              a;lskdjf;lkasjdf;lkasjdf;lkajsdf;;lkj" << std::endl;
-  }*/
+  }
+  if(!frc2::CommandScheduler::GetInstance().IsScheduled(&m_climbCommand)
+    &&!frc2::CommandScheduler::GetInstance().IsScheduled(&m_commandUserDrive)) m_commandUserDrive.Schedule();
 }
 
 void Robot::TeleopExit() {}
 
-void Robot::TestInit() {}
-
-void Robot::TestPeriodic() {
-  std::cout << m_shooterIntake.defaultSensors.GetBoolean(false) << std::endl;
+void Robot::TestInit() {
 }
+
+void Robot::TestPeriodic(){}
 
 
 #ifndef RUNNING_FRC_TESTS

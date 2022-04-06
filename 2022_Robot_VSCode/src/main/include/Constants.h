@@ -59,18 +59,22 @@ enum climbBinds{
 const double climbSpeed = .75; //Temp tuning enabled
 const double rotateSpeed = .375; //Temp tuning enabled
 const double holdSpeed = .1;
-const double climbDriveSpeed = .1;
-const double climbRotateSpeed = .075;
+const double climbDriveSpeed = .13;
+const double climbRotateSpeed = .1125;
 
 
 //Shooter parameters
 const double intakeBeltSpeed = .9;
-const double shootBeltSpeed = .6;
-const double k_shootSpeed = 3800; //Temp tuning enabled
+const double shootBeltSpeed = .65;
+const double k_shootSpeed = 1000;
+const double k_shootSpeedHigh = 3900;
 const double k_shootNoPid = .65;
-const int intakeTimeout = 1500; //Used to be 1500
-const int k_shootStartTime = 1000;
-const int shootTimeout = 1200;  //Used to be 1200
+const int intakeTimeout = 1500;
+const int k_shootStartTime = 800;
+const int k_shotDelay = 1000;
+const int shootTimeout = 1200;
+const int autoShootTime = 750;
+const int autoIntakeTimeout = 2000;
 
 const double shooter_kF = .00019;
 const double shooter_kP = .00014;

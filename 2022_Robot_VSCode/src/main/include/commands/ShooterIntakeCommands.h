@@ -38,6 +38,8 @@ class ShootCommand : public frc2::CommandHelper<frc2::CommandBase, ShootCommand>
   frc::GenericHID& m_controller;
   std::chrono::time_point<std::chrono::steady_clock> timeout;
   std::chrono::time_point<std::chrono::steady_clock> startup;
+  std::chrono::time_point<std::chrono::steady_clock> shootDelay;
+  int trigger = 0;
 };
 
 
@@ -55,4 +57,35 @@ class IntakeCommandDefault : public frc2::CommandHelper<frc2::CommandBase, Intak
   ShooterIntake* m_shooterIntake;
   frc::GenericHID& m_controller;
   std::chrono::time_point<std::chrono::steady_clock> timeout;
+};
+
+
+class AutoShootCommand : public frc2::CommandHelper<frc2::CommandBase, AutoShootCommand> {
+ public:
+  explicit AutoShootCommand(ShooterIntake* shooterIntake);
+  
+  void Initialize();
+  void Execute();
+  void End(bool interrupted);
+  bool IsFinished();
+
+ private:
+  ShooterIntake* m_shooterIntake;
+  std::chrono::time_point<std::chrono::steady_clock> startup;
+};
+
+class AutoIntakeCommand : public frc2::CommandHelper<frc2::CommandBase, AutoIntakeCommand> {
+ public:
+  explicit AutoIntakeCommand(ShooterIntake* shooterIntake);
+
+  void Initialize();
+  void Execute();
+  void End(bool interrupted);
+  bool IsFinished();
+
+ private:
+  ShooterIntake* m_shooterIntake;
+  std::chrono::time_point<std::chrono::steady_clock> timeout;
+  std::chrono::time_point<std::chrono::steady_clock> endTime;
+  bool engaged;
 };

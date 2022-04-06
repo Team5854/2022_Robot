@@ -64,20 +64,53 @@ void ShootCommand::Initialize(){
     m_shooterIntake->m_balls[1] = false;
     m_shooterIntake->setPid(shooter_kF, shooter_kP, shooter_kI, shooter_kD);
     m_shooterIntake->setLeds(-1);
+    trigger = 0;
 }
 
 void ShootCommand::Execute(){
+    if(!m_shooterIntake->getBreakBeam2() && trigger == 0){
+        trigger = 1;
+        shootDelay = std::chrono::steady_clock::now() + std::chrono::milliseconds(int(m_shooterIntake->shooterStartTime.GetDouble(k_shotDelay)));
+    }
+    if(m_shooterIntake->getBreakBeam2() && trigger == 1){
+         trigger = 2;
+    }
     if(m_controller.GetRawButton(shootButton)){
         if(pidEnabled){
-            m_shooterIntake->setMotorPoint(m_shooterIntake->setPoint.GetDouble(k_shootSpeed));
+            if(!m_shooterIntake->highLow.GetBoolean(false)){
+                m_shooterIntake->setMotorPoint(m_shooterIntake->setPoint.GetDouble(k_shootSpeed));
+            }
+            else{
+                m_shooterIntake->setMotorPoint(m_shooterIntake->setPointHigh.GetDouble(k_shootSpeedHigh));
+            }
         }
         else{
             m_shooterIntake->shootRun(k_shootNoPid);
         }
         timeout = std::chrono::steady_clock::now() + std::chrono::milliseconds(shootTimeout);
         if(std::chrono::steady_clock::now() > startup){
-            m_shooterIntake->stage1Run(shootBeltSpeed);
-            m_shooterIntake->stage2Run(shootBeltSpeed);
+            if(m_shooterIntake->highLow.GetBoolean(false)){
+                if(trigger == 0 || trigger == 1){
+                    m_shooterIntake->stage1Run(shootBeltSpeed);
+                    m_shooterIntake->stage2Run(shootBeltSpeed);
+                }
+                else if(trigger == 2 && shootDelay > std::chrono::steady_clock::now()){
+                    m_shooterIntake->stage1Run(0);
+                    m_shooterIntake->stage2Run(0);
+                }
+                else if(shootDelay < std::chrono::steady_clock::now()){
+                    m_shooterIntake->stage1Run(shootBeltSpeed);
+                    m_shooterIntake->stage2Run(shootBeltSpeed);
+                }
+                else{
+                    m_shooterIntake->stage1Run(0);
+                    m_shooterIntake->stage2Run(0);
+                }
+            }
+            else{
+                m_shooterIntake->stage1Run(shootBeltSpeed);
+                m_shooterIntake->stage2Run(shootBeltSpeed);
+            }
         }
         else{
             m_shooterIntake->stage1Run(0);
@@ -144,5 +177,88 @@ void IntakeCommandDefault::End(bool interrupted){
 
 bool IntakeCommandDefault::IsFinished(){
     if(std::chrono::steady_clock::now() > timeout) return true;
+    return false;
+}
+
+AutoShootCommand::AutoShootCommand(ShooterIntake* shooterIntake):
+    m_shooterIntake{shooterIntake}{}
+
+void AutoShootCommand::Initialize(){
+    startup = std::chrono::steady_clock::now() + std::chrono::milliseconds(int(m_shooterIntake->shooterStartTime.GetDouble(k_shootStartTime)));
+    m_shooterIntake->m_balls[0] = false;
+    m_shooterIntake->m_balls[1] = false;
+    m_shooterIntake->setPid(shooter_kF, shooter_kP, shooter_kI, shooter_kD);
+    m_shooterIntake->setLeds(-1);
+}
+
+void AutoShootCommand::Execute(){
+    if(!m_shooterIntake->highLow.GetBoolean(false)){
+        m_shooterIntake->setMotorPoint(m_shooterIntake->setPoint.GetDouble(k_shootSpeed));
+    }
+    else{
+        m_shooterIntake->setMotorPoint(m_shooterIntake->setPointHigh.GetDouble(k_shootSpeedHigh));
+    }
+    if(startup < std::chrono::steady_clock::now()){
+        m_shooterIntake->stage2Run(shootBeltSpeed);
+        m_shooterIntake->stage1Run(shootBeltSpeed);
+    }
+}
+
+void AutoShootCommand::End(bool interrupted){
+    m_shooterIntake->stage2Run(0);
+    m_shooterIntake->stage1Run(0);
+    m_shooterIntake->setMotorPoint(0);
+}
+
+bool AutoShootCommand::IsFinished(){
+    if((startup + std::chrono::milliseconds(autoShootTime)) < std::chrono::steady_clock::now()) return true;
+    else return false;
+}
+
+AutoIntakeCommand::AutoIntakeCommand(ShooterIntake* shooterIntake):
+    m_shooterIntake{shooterIntake}{}
+
+void AutoIntakeCommand::Initialize(){
+    engaged = true;
+    endTime =  std::chrono::steady_clock::now() + std::chrono::milliseconds(autoIntakeTimeout);
+}
+
+void AutoIntakeCommand::Execute(){
+    if(!m_shooterIntake->m_balls[1]&&m_shooterIntake->getBreakBeam2()) m_shooterIntake->m_balls[1] = true;
+    if(m_shooterIntake->m_balls[1]&&!m_shooterIntake->m_balls[0]&&m_shooterIntake->getBreakBeam1()) m_shooterIntake->m_balls[0] = true;
+    if(engaged){
+        m_shooterIntake->setIntake(true);
+        timeout = std::chrono::steady_clock::now() + std::chrono::milliseconds(intakeTimeout);
+    }
+    else{
+        m_shooterIntake->setIntake(false);
+    }
+    if(!m_shooterIntake->getBreakBeam2()&&!m_shooterIntake->m_balls[1]){
+        m_shooterIntake->stage2Run(intakeBeltSpeed);
+        m_shooterIntake->stage1Run(intakeBeltSpeed);
+        m_shooterIntake->setLeds(0);
+    }
+    else if(!m_shooterIntake->getBreakBeam1()&&!m_shooterIntake->m_balls[0]){
+        m_shooterIntake->stage2Run(0);
+        m_shooterIntake->stage1Run(intakeBeltSpeed);
+        m_shooterIntake->setLeds(1);
+    }
+    else{
+        m_shooterIntake->stage2Run(0);
+        m_shooterIntake->stage1Run(0);
+        m_shooterIntake->setLeds(2);
+    }
+}
+
+void AutoIntakeCommand::End(bool interrupted){
+    m_shooterIntake->setIntake(false);
+    m_shooterIntake->stage1Run(0);
+    m_shooterIntake->stage2Run(0);
+}
+
+bool AutoIntakeCommand::IsFinished(){
+    if(m_shooterIntake->m_balls[0]&&m_shooterIntake->m_balls[1]) return true;
+    else if(std::chrono::steady_clock::now() > timeout) return true;
+    if(std::chrono::steady_clock::now() > endTime) return true;
     return false;
 }

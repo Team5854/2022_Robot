@@ -47,6 +47,8 @@ class Robot : public frc::TimedRobot {
   IntakeCommand m_intakeCommandIndex{&m_shooterIntake, m_driverPad1};
   ShootCommand m_shootCommand{&m_shooterIntake, m_driverPad1};
   ClimbCommand m_climbCommand{&m_climber, &m_shooterIntake, &m_drivetrain, m_driverPad1};
+  AutoIntakeCommand m_autoIntake{&m_shooterIntake};
+  AutoShootCommand m_autoShoot{&m_shooterIntake};
 
   frc2::JoystickButton shootButtonTrigger{&m_driverPad1, shootButton};
   frc2::JoystickButton* intakeButtonTrigger;
