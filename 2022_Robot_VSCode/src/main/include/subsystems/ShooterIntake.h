@@ -34,7 +34,10 @@ class ShooterIntake : public frc2::SubsystemBase {
   nt::NetworkTableEntry shooterStartTime = shooterConfigTab.Add("Shooter spin-up time:", k_shootStartTime).GetEntry();
   nt::NetworkTableEntry shotsDelay = shooterConfigTab.Add("Shot delay time:", k_shootStartTime).GetEntry();
   nt::NetworkTableEntry defaultSensors = shooterConfigTab.Add("Default sensors: ", sensorsDefaulted).WithWidget(frc::BuiltInWidgets::kToggleButton).GetEntry();
-  nt::NetworkTableEntry highLow = shooterConfigTab.Add("Enable highshot: ", false).WithWidget(frc::BuiltInWidgets::kToggleButton).GetEntry();
+  nt::NetworkTableEntry highLow = shooterConfigTab.Add("Enable highshot: ", true).WithWidget(frc::BuiltInWidgets::kToggleButton).GetEntry();
+  nt::NetworkTableEntry disableShoot = shooterConfigTab.Add("Disable shooter lights: ", false).WithWidget(frc::BuiltInWidgets::kToggleButton).GetEntry();
+  nt::NetworkTableEntry shooterOnly = shooterConfigTab.Add("Shooter lights only: ", false).WithWidget(frc::BuiltInWidgets::kToggleButton).GetEntry();
+
   
  private:
   rev::CANSparkMax m_shooterLead;

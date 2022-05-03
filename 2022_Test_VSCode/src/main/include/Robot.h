@@ -10,7 +10,6 @@
 #include "Drivetrain.h"
 #include <frc/GenericHID.h>
 #include <frc/SerialPort.h>
-#include <rev/CANSparkMax.h>
 #include <frc/Compressor.h>
 #include <frc/Solenoid.h>
 #include <frc/DoubleSolenoid.h>
@@ -55,7 +54,7 @@ class Robot : public frc::TimedRobot {
   //frc::DoubleSolenoid DoubleSolenoid{6,frc::PneumaticsModuleType::CTREPCM,2,3};
   //rev::CANSparkMax shooterMotor1{6,rev::CANSparkMaxLowLevel::MotorType::kBrushless};
   //rev::CANSparkMax shooterMotor2{7,rev::CANSparkMaxLowLevel::MotorType::kBrushless};
-  //TalonFX shooterMotor2{11};
+  TalonFX m_leftLead{13};
   //TalonFX shooterMotor3{10};
   //Arduino arduino{115200,frc::SerialPort::Port::kUSB};
   //std::clock_t time;

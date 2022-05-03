@@ -40,9 +40,11 @@ void Robot::TestInit() {
   //shooterMotor.Set(ControlMode::PercentOutput, .1);
   //Compressor.Disable();
   //std::cout << arduino.initComms() << std::endl;
+  //m_leftLead.SetStatusFramePeriod()
 }
 
 void Robot::TestPeriodic() {
+  std::cout << m_leftLead.GetSelectedSensorPosition(0) << std::endl;
   /*int pos;
   if(driverPad1.GetRawButton(shootButton)) shooterMotor1.Set(.5);
   else shooterMotor1.Set(0);

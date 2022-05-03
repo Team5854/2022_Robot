@@ -16,6 +16,9 @@ const double accelRamp = 8; //Temp tuning enabled 8
 const double turnMod = .3; //Temp tuning enabled .3
 const double turnRamp = 20; //Temp tuning enabled 20
 const double boost = 2; // 2
+const double k_accelDis = 60000;
+const double k_Vlow = 28;
+const double k_Vhigh = 40;
 
 //Gamepad bindings
 enum gamePadConfig {
@@ -56,7 +59,7 @@ enum climbBinds{
   climbFinishedButton = 14//14
 };
 
-const double climbSpeed = .75; //Temp tuning enabled
+const double climbSpeed = .85; //Temp tuning enabled
 const double rotateSpeed = .375; //Temp tuning enabled
 const double holdSpeed = .1;
 const double climbDriveSpeed = .13;
@@ -67,14 +70,14 @@ const double climbRotateSpeed = .1125;
 const double intakeBeltSpeed = .9;
 const double shootBeltSpeed = .65;
 const double k_shootSpeed = 1000;
-const double k_shootSpeedHigh = 3900;
+const double k_shootSpeedHigh = 4020;
 const double k_shootNoPid = .65;
 const int intakeTimeout = 1500;
-const int k_shootStartTime = 800;
+const int k_shootStartTime = 900;
 const int k_shotDelay = 1000;
 const int shootTimeout = 1200;
 const int autoShootTime = 750;
-const int autoIntakeTimeout = 2000;
+const int autoIntakeTimeout = 3000;
 
 const double shooter_kF = .00019;
 const double shooter_kP = .00014;

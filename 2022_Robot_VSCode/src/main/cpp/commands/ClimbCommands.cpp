@@ -14,16 +14,16 @@ void ClimbCommand::Execute(){
     m_climber->rotate(-1*rotateSpeed*m_controller.GetRawAxis(rotateAxis));
 
     if(m_controller.GetPOV() == 0){
-        m_drivetrain->Set(-climbDriveSpeed,0);
-    }
-    else if(m_controller.GetPOV() == 90){
-        m_drivetrain->Set(0,climbRotateSpeed);
-    }
-    else if(m_controller.GetPOV() == 180){
         m_drivetrain->Set(climbDriveSpeed,0);
     }
-    else if(m_controller.GetPOV() == 270){
+    else if(m_controller.GetPOV() == 90){
         m_drivetrain->Set(0,-climbRotateSpeed);
+    }
+    else if(m_controller.GetPOV() == 180){
+        m_drivetrain->Set(-climbDriveSpeed,0);
+    }
+    else if(m_controller.GetPOV() == 270){
+        m_drivetrain->Set(0,climbRotateSpeed);
     }
     else{
         m_drivetrain->Set(0,0);

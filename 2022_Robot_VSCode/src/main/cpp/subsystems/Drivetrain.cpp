@@ -1,18 +1,28 @@
 #include "subsystems/Drivetrain.h"
 #include <frc2/command/CommandScheduler.h>
 
-Drivetrain::Drivetrain(int leftLead, int leftFollow, int rightLead, int rightFollow)
+Drivetrain::Drivetrain(int leftLead, int leftFollow, int rightLead, int rightFollow, std::initializer_list<bool> motorInverts)
   : m_leftLead{leftLead}, m_leftFollow{leftFollow}, m_rightLead{rightLead}, m_rightFollow{rightFollow}
   {
+  m_leftLead.SetInverted(motorInverts.begin()[0]);
+  m_leftFollow.SetInverted(motorInverts.begin()[1]);
+  m_rightLead.SetInverted(motorInverts.begin()[2]);
+  m_rightFollow.SetInverted(motorInverts.begin()[3]);
   m_leftFollow.Follow(m_leftLead);
-  m_rightLead.SetInverted(true);
-  m_rightFollow.SetInverted(true);
   m_rightFollow.Follow(m_rightLead);
-  m_leftLead.SetNeutralMode(NeutralMode::Coast);
-  m_leftFollow.SetNeutralMode(NeutralMode::Coast);
-  m_rightLead.SetNeutralMode(NeutralMode::Coast);
-  m_rightFollow.SetNeutralMode(NeutralMode::Coast);
+  m_leftLead.SetNeutralMode(NeutralMode::Brake);
+  m_leftFollow.SetNeutralMode(NeutralMode::Brake);
+  m_rightLead.SetNeutralMode(NeutralMode::Brake);
+  m_rightFollow.SetNeutralMode(NeutralMode::Brake);
   frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
+  m_rightLead.Config_kF(0,.05,50);
+  m_rightLead.Config_kP(0,.02,50);
+  m_rightLead.ConfigClosedloopRamp(.25, 50);
+  m_rightLead.ConfigAllowableClosedloopError(0,150,50);
+  m_leftLead.Config_kF(0,.05,50);
+  m_leftLead.Config_kP(0,.02,50);
+  m_leftLead.ConfigClosedloopRamp(.25, 50);
+  m_leftLead.ConfigAllowableClosedloopError(0,150,50);
 }
 
 void Drivetrain::Set(double forward, double rotation){// Sets the speed of the motor groups based off of forward and rotational values
@@ -24,14 +34,8 @@ void Drivetrain::Set(double forward, double rotation){// Sets the speed of the m
     throw 1;
   }
   else{ 
-    if(true){
-      m_leftLead.Set(ControlMode::PercentOutput, Drivetrain::PercentRange(forward-rotation)); //Left side + rotation (slows when negative meaning left turn, and speeds up for positive)
-      m_rightLead.Set(ControlMode::PercentOutput, Drivetrain::PercentRange(forward+rotation)); //Right side - rotation (reverse of above)
-    }
-    else{ // The same as above but flipped so rotation is inverted
-      m_leftLead.Set(ControlMode::PercentOutput, Drivetrain::PercentRange(forward+rotation));
-      m_rightLead.Set(ControlMode::PercentOutput, Drivetrain::PercentRange(forward-rotation));
-    }
+    m_leftLead.Set(ControlMode::PercentOutput, Drivetrain::PercentRange(forward-rotation)); //Left side + rotation (slows when negative meaning left turn, and speeds up for positive)
+    m_rightLead.Set(ControlMode::PercentOutput, Drivetrain::PercentRange(forward+rotation)); //Right side - rotation (reverse of above)
   }
 }
 
@@ -60,9 +64,29 @@ double Drivetrain::NonLinear(double in){
 }
 
 double Drivetrain::GetLeftEncoders(){
-  return m_leftLead.GetSensorCollection().GetIntegratedSensorPosition();
+  return m_leftLead.GetSelectedSensorPosition(0);
 }
 
 double Drivetrain::GetRightEncoders(){
-  return m_rightLead.GetSensorCollection().GetIntegratedSensorPosition();
+  return m_rightLead.GetSelectedSensorPosition(0);
+}
+
+void Drivetrain::velocitySet(double leftVelocity, double rightVelocity){
+  m_leftLead.Set(ControlMode::Velocity, leftVelocity);
+  m_rightLead.Set(ControlMode::Velocity, rightVelocity);
+}
+
+void Drivetrain::brakeSet(bool on){
+  if(on){
+    m_leftLead.SetNeutralMode(NeutralMode::Brake);
+    m_leftFollow.SetNeutralMode(NeutralMode::Brake);
+    m_rightLead.SetNeutralMode(NeutralMode::Brake);
+    m_rightFollow.SetNeutralMode(NeutralMode::Brake);
+  }
+  else{
+    m_leftLead.SetNeutralMode(NeutralMode::Coast);
+    m_leftFollow.SetNeutralMode(NeutralMode::Coast);
+    m_rightLead.SetNeutralMode(NeutralMode::Coast);
+    m_rightFollow.SetNeutralMode(NeutralMode::Coast);
+  }
 }

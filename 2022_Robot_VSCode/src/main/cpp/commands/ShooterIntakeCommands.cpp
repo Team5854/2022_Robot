@@ -192,12 +192,8 @@ void AutoShootCommand::Initialize(){
 }
 
 void AutoShootCommand::Execute(){
-    if(!m_shooterIntake->highLow.GetBoolean(false)){
-        m_shooterIntake->setMotorPoint(m_shooterIntake->setPoint.GetDouble(k_shootSpeed));
-    }
-    else{
-        m_shooterIntake->setMotorPoint(m_shooterIntake->setPointHigh.GetDouble(k_shootSpeedHigh));
-    }
+    m_shooterIntake->setMotorPoint(m_shooterIntake->setPointHigh.GetDouble(k_shootSpeedHigh));
+    
     if(startup < std::chrono::steady_clock::now()){
         m_shooterIntake->stage2Run(shootBeltSpeed);
         m_shooterIntake->stage1Run(shootBeltSpeed);

@@ -17,7 +17,9 @@
 #include "commands/ShooterIntakeCommands.h"
 #include "subsystems/Climber.h"
 #include "commands/ClimbCommands.h"
+#include "commands/AutoCommands.h"
 #include "subsystems/Arduino.h"
+#include "frc/smartdashboard/SendableChooser.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -38,7 +40,7 @@ class Robot : public frc::TimedRobot {
   frc::Compressor m_compressor{compressorId, frc::PneumaticsModuleType::CTREPCM};
   Arduino theSideCar{115200, frc::SerialPort::Port::kUSB1};
 
-  Drivetrain m_drivetrain{leftFalconLeadId, leftFalconFollowId, rightFalconLeadId, rightFalconFollowId};
+  Drivetrain m_drivetrain{leftFalconLeadId, leftFalconFollowId, rightFalconLeadId, rightFalconFollowId, {1,1,0,0}};
   ShooterIntake m_shooterIntake{stage3LeadSparkId, stage3FollowSparkId, stage2TalonId, stage1TalonId, m_compressor, solenoidPort, theSideCar, 0, 1,{0,1,0,0}};
   Climber m_climber{climberLeadId, climberFollowId, climberRotateId, theSideCar, {1,0,0}};
 
@@ -47,9 +49,11 @@ class Robot : public frc::TimedRobot {
   IntakeCommand m_intakeCommandIndex{&m_shooterIntake, m_driverPad1};
   ShootCommand m_shootCommand{&m_shooterIntake, m_driverPad1};
   ClimbCommand m_climbCommand{&m_climber, &m_shooterIntake, &m_drivetrain, m_driverPad1};
-  AutoIntakeCommand m_autoIntake{&m_shooterIntake};
-  AutoShootCommand m_autoShoot{&m_shooterIntake};
+  TwoBallAutoLeft m_autoCommand{&m_drivetrain, &m_shooterIntake};
+  autoTurn m_autoTurn{&m_drivetrain, -135};
+  OneBallAutoLeft m_oneAuto{&m_drivetrain, &m_shooterIntake};
 
+  frc::SendableChooser<frc2::Command*> m_chooser;
   frc2::JoystickButton shootButtonTrigger{&m_driverPad1, shootButton};
   frc2::JoystickButton* intakeButtonTrigger;
   frc2::JoystickButton climberButtonTrigger{&m_driverPad1, startClimbButton};

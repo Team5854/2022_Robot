@@ -4,15 +4,21 @@
 
 #include "Robot.h"
 #include "Constants.h"
+#include "commands/DrivetrainCommands.h"
+#include "commands/ShooterIntakeCommands.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
+#include <frc2/command/SequentialCommandGroup.h>
 #include <iostream>
 
 void Robot::RobotInit() {
   std::cout << "starting" << std::endl;
   frc::CameraServer::StartAutomaticCapture();
   theSideCar.initComms();
+  m_chooser.SetDefaultOption("One Ball Auto Left", &m_oneAuto);
+  m_chooser.AddOption("Two Ball Left", &m_autoCommand);
+  frc::SmartDashboard::PutData(&m_chooser);
 }
 
 void Robot::RobotPeriodic() {
@@ -29,6 +35,10 @@ void Robot::RobotPeriodic() {
         else theSideCar.sendState('N');
       }
     }
+    if(m_shooterIntake.shooterOnly.GetBoolean(false)) theSideCar.sendState('q');
+    else theSideCar.sendState('Q');
+    if(m_shooterIntake.disableShoot.GetBoolean(false)) theSideCar.sendState('g');
+    else theSideCar.sendState('G');
   }
   else theSideCar.sendState('F');
 }
@@ -38,37 +48,20 @@ void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}
 
 void Robot::AutonomousInit() {
-  /*autodrive = std::chrono::steady_clock::now() + std::chrono::milliseconds(k_shootStartTime + 4000);
-  m_shooterIntake.setPid(shooter_kF, shooter_kP, shooter_kI, shooter_kD);*/
-  m_autoIntake.Schedule();
+  frc::SmartDashboard::PutData(&m_chooser);
+  m_drivetrain.brakeSet(true);
+  m_chooser.GetSelected()->Schedule();
 } 
 
-void Robot::AutonomousPeriodic() {
-  if(!frc2::CommandScheduler::GetInstance().IsScheduled(&m_autoIntake)) m_autoShoot.Schedule();
-  /*double motorSpeed = m_shooterIntake.setPoint.GetDouble(k_shootSpeed);
-  if(m_shooterIntake.highLow.GetBoolean(false)) motorSpeed = m_shooterIntake.setPointHigh.GetDouble(k_shootSpeed);
-  else motorSpeed = m_shooterIntake.setPoint.GetDouble(k_shootSpeed);
-  if((autodrive - std::chrono::milliseconds(4000)) > std::chrono::steady_clock::now()){
-    m_shooterIntake.setMotorPoint(motorSpeed);
-  }
-  else if((autodrive - std::chrono::milliseconds(2000)) > std::chrono::steady_clock::now()){
-    m_shooterIntake.stage1Run(shootBeltSpeed);
-    m_shooterIntake.stage2Run(shootBeltSpeed);
-  }
-  else if(autodrive > std::chrono::steady_clock::now()){
-    m_drivetrain.Set(-.2,0);
-    m_shooterIntake.shootRun(0);
-    m_shooterIntake.stage1Run(0);
-    m_shooterIntake.stage2Run(0);
-  }
-  else m_drivetrain.Set(0,0);*/
-}
+void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
+  m_drivetrain.brakeSet(false);
   m_commandUserDrive.Schedule();
   shootButtonTrigger.WhenPressed(&m_shootCommand,false);
   intakeButtonTrigger = new frc2::JoystickButton{&m_driverPad1, intakeButton};
   intakeButtonTrigger->WhenPressed(&m_intakeCommandIndex);
+
   if(m_shooterIntake.defaultSensors.GetBoolean(false) != lastDefault){
     lastDefault = m_shooterIntake.defaultSensors.GetBoolean(false);
     delete intakeButtonTrigger;
@@ -92,14 +85,11 @@ void Robot::TeleopPeriodic() {
     if(m_shooterIntake.defaultSensors.GetBoolean(false)){
       intakeButtonTrigger = new frc2::JoystickButton{&m_driverPad1, intakeButton};
       intakeButtonTrigger->WhenPressed(&m_intakeCommand,false);
-      std::cout << "Changed to default" << std::endl;
     }
     else{
       intakeButtonTrigger = new frc2::JoystickButton{&m_driverPad1, intakeButton};
       intakeButtonTrigger->WhenPressed(&m_intakeCommandIndex,false);
-      std::cout << "Changed to index" << std::endl;
     }
-    std::cout << "Change made                                                              a;lskdjf;lkasjdf;lkasjdf;lkajsdf;;lkj" << std::endl;
   }
   if(!frc2::CommandScheduler::GetInstance().IsScheduled(&m_climbCommand)
     &&!frc2::CommandScheduler::GetInstance().IsScheduled(&m_commandUserDrive)) m_commandUserDrive.Schedule();
@@ -107,10 +97,11 @@ void Robot::TeleopPeriodic() {
 
 void Robot::TeleopExit() {}
 
-void Robot::TestInit() {
-}
+void Robot::TestInit() {}
 
-void Robot::TestPeriodic(){}
+void Robot::TestPeriodic(){
+  std::cout << m_drivetrain.GetLeftEncoders() << std::endl;
+}
 
 
 #ifndef RUNNING_FRC_TESTS
