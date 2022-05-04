@@ -59,7 +59,7 @@ void ShooterIntake::setPid(double kF, double kP, double kI, double kD){
 }
 
 void ShooterIntake::setMotorPoint(double setpoint){
-    m_PIDController.SetReference(setpoint, rev::ControlType::kVelocity);
+    m_PIDController.SetReference(setpoint, rev::CANSparkMaxLowLevel::ControlType::kVelocity);
 }
 
 void ShooterIntake::Periodic(){

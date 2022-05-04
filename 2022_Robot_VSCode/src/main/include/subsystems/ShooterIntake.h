@@ -7,7 +7,6 @@
 #include <frc/Compressor.h>
 #include <frc/Solenoid.h>
 #include <frc/DigitalInput.h>
-#include <ctime>
 #include <frc/shuffleboard/Shuffleboard.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "Constants.h"

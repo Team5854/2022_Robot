@@ -17,11 +17,11 @@ TwoBallAutoLeft::TwoBallAutoLeft(Drivetrain* drivetrain, ShooterIntake* shooterI
         autoDrive(drivetrain, 35),
         AutoShootCommand(shooterIntake)
     );
-};
+}
 
 OneBallAutoLeft::OneBallAutoLeft(Drivetrain* drivetrain, ShooterIntake* shooterIntake){
     AddCommands(
         AutoShootCommand(shooterIntake),
         autoDrive(drivetrain, -100)
     );
-};
+}
