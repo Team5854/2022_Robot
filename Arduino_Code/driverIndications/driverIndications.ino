@@ -1,7 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 Adafruit_NeoPixel strip1 = Adafruit_NeoPixel(22, 6, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel strip2 = Adafruit_NeoPixel(22, 7, NEO_GRB + NEO_KHZ800);
-char lastStatusByte;
+char lastStatusByte = 'b';
 const int colors[][3] = {{255,0,0},{222, 116, 9},{222, 204, 9},{0,200,70},{66, 212, 245},{0,0,255},{176, 66, 245}};
 
 int ledIndex = 0;
@@ -43,30 +43,38 @@ void partyMode(){
 void blinkLeds(int Red, int Green, int Blue){
   if(millis() >= lastTime+250){
     lastTime = millis();
+    blinkBool = !blinkBool;
     for(int i = 0; i < 11; i++){
       if(blinkBool){
         if(i%2 == 0){
-          strip1.setPixelColor(i,Red,Green,Blue);
-          strip1.setPixelColor(i+1,Red,Green,Blue);
-          strip2.setPixelColor(i,Red,Green,Blue);
-          strip2.setPixelColor(i+1,Red,Green,Blue);
+          strip1.setPixelColor(2*i,Red,Green,Blue);
+          strip1.setPixelColor(2*i+1,Red,Green,Blue);
+          strip2.setPixelColor(2*i,Red,Green,Blue);
+          strip2.setPixelColor(2*i+1,Red,Green,Blue);
         }
         else{
-          strip1.setPixelColor(i,0,0,0);
-          strip1.setPixelColor(i+1,0,0,0);
-          strip2.setPixelColor(i,0,0,0);
-          strip2.setPixelColor(i+1,0,0,0);
+          strip1.setPixelColor(2*i,0,0,0);
+          strip1.setPixelColor(2*i+1,0,0,0);
+          strip2.setPixelColor(2*i,0,0,0);
+          strip2.setPixelColor(2*i+1,0,0,0);
         }
       }
+      else{
+        strip1.setPixelColor(2*i,0,0,0);
+        strip1.setPixelColor(2*i+1,0,0,0);
+        strip2.setPixelColor(2*i,0,0,0);
+        strip2.setPixelColor(2*i+1,0,0,0);
+      }
     }
-    strip1.show();
-    strip2.show();
   }
+  strip1.show();
+  strip2.show();
 }
 
 void runway(int Red, int Green, int Blue){
   if(millis() >= lastTime+100){
     lastTime = millis();
+    ledIndex = wrapAround(ledIndex+1);
     for(int i = 0; i < 11; i++){
       if(i%2 == 0){
         strip1.setPixelColor(wrapAround((2*i)+ledIndex),Red,Green,Blue);
@@ -89,14 +97,14 @@ void runway(int Red, int Green, int Blue){
 void ballIndication(bool top, bool bottom){
   if(top){
     for(int i = 11; i < 22; i++){
-      strip1.setPixelColor(i,0,0,255);
-      strip1.setPixelColor(i,0,0,255);
+      strip1.setPixelColor(i,0,255,0);
+      strip2.setPixelColor(i,0,255,0);
     }
   }
   if(bottom){
     for(int i = 0; i < 11; i++){
       strip1.setPixelColor(i,0,255,0);
-      strip1.setPixelColor(i,0,255,0);
+      strip2.setPixelColor(i,0,255,0);
     }
   }
   strip1.show();
@@ -126,7 +134,7 @@ void loop() {
     }
     else{
       lastStatusByte = received;
-      lastTime = millis();
+      Serial.println(lastStatusByte);
     }
   }
   switch(lastStatusByte){
@@ -144,6 +152,8 @@ void loop() {
         strip1.setPixelColor(i,178, 7, 235);
         strip2.setPixelColor(i,178, 7, 235);
       }
+      strip1.show();
+      strip2.show();
       break;
     case 'l':
       blinkLeds(247, 94, 209);
@@ -163,6 +173,8 @@ void loop() {
         strip1.setPixelColor(i,255,0,0);
         strip2.setPixelColor(i,255,0,0);
       }
+      strip1.show();
+      strip2.show();
       break;
     case 'o':
       for(int i = 0; i < 22; i++){
