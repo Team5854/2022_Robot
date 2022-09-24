@@ -9,12 +9,12 @@
 TwoBallAutoLeft::TwoBallAutoLeft(Drivetrain* drivetrain, ShooterIntake* shooterIntake){
     AddCommands(
         AutoShootCommand(shooterIntake),
-        autoDrive(drivetrain, -49),
-        autoTurn(drivetrain, 125),
-        frc2::ParallelCommandGroup{autoDrive(drivetrain, 22.5), AutoIntakeCommand(shooterIntake)},
-        autoDrive(drivetrain, -18),
-        autoTurn(drivetrain, -200),
-        autoDrive(drivetrain, 35),
+        autoDrive(drivetrain, -40),
+        autoTurn(drivetrain, 110),
+        frc2::ParallelCommandGroup{autoDrive(drivetrain, 35.5), AutoIntakeCommand(shooterIntake)},
+        autoDrive(drivetrain, -30),
+        autoTurn(drivetrain, -165),
+        autoDrive(drivetrain, 45),
         AutoShootCommand(shooterIntake)
     );
 }

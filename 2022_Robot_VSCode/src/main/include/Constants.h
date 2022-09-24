@@ -11,10 +11,10 @@ const bool pidEnabled = true;
 const bool sensorsDefaulted = false;
 
 // Acceleration mods
-const double accelMod = .65; //Temp tuning enabled .7
-const double accelRamp = 8; //Temp tuning enabled 8
-const double turnMod = .3; //Temp tuning enabled .3
-const double turnRamp = 20; //Temp tuning enabled 20
+const double accelMod = .55; // .65
+const double accelRamp = 8;
+const double turnMod = .25; // .3
+const double turnRamp = 20;
 const double boost = 2; // 2
 const double k_accelDis = 60000;
 const double k_Vlow = 28;
@@ -55,12 +55,12 @@ enum canIds {
 enum climbBinds{
   climbAxis = 1,
   rotateAxis = 2,
-  startClimbButton = 13,//13,
-  climbFinishedButton = 14//14
+  startClimbButton = 13,    //13 and 14 for PS5 controller
+  climbFinishedButton = 14
 };
 
-const double climbSpeed = .85; //Temp tuning enabled
-const double rotateSpeed = .375; //Temp tuning enabled
+const double climbSpeed = .85;
+const double rotateSpeed = .375;
 const double holdSpeed = .1;
 const double climbDriveSpeed = .13;
 const double climbRotateSpeed = .1125;
@@ -77,7 +77,7 @@ const int k_shootStartTime = 900;
 const int k_shotDelay = 1000;
 const int shootTimeout = 1200;
 const int autoShootTime = 750;
-const int autoIntakeTimeout = 3000;
+const int autoIntakeTimeout = 2500;
 
 const double shooter_kF = .00019;
 const double shooter_kP = .00014;

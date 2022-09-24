@@ -54,21 +54,20 @@ void autoDrive::Execute(){
   double leftVelocity = 0;
   double rightVelocity = 0;
   if(m_distance > 0){
-    leftVelocity = getVelocity(abs(leftEnd-leftStart),leftStart- m_drivetrain->GetLeftEncoders());
-    rightVelocity = getVelocity(abs(rightEnd-rightStart), m_drivetrain->GetRightEncoders() - rightStart);
+    leftVelocity = getVelocity(abs(leftEnd-leftStart),leftStart - m_drivetrain->GetLeftEncoders());
+    rightVelocity = getVelocity(abs(rightEnd-rightStart), rightStart - m_drivetrain->GetRightEncoders());
 
     if(abs(rightEnd - m_drivetrain->GetRightEncoders()) < 1000) rightVelocity = 0;
     if(abs(leftEnd - m_drivetrain->GetLeftEncoders()) < 1000) leftVelocity = 0;
   }
   else{
-    leftVelocity = -1*getVelocity(abs(leftEnd-leftStart),leftStart- m_drivetrain->GetLeftEncoders());
-    rightVelocity = -1*getVelocity(abs(rightEnd-rightStart), m_drivetrain->GetRightEncoders() - rightStart);
+    leftVelocity = -1*getVelocity(abs(leftEnd-leftStart), leftStart - m_drivetrain->GetLeftEncoders());
+    rightVelocity = -1*getVelocity(abs(rightEnd-rightStart), rightStart - m_drivetrain->GetRightEncoders());
 
     if(abs(rightEnd - m_drivetrain->GetRightEncoders()) < 1000) rightVelocity = 0;
     if(abs(leftEnd - m_drivetrain->GetLeftEncoders()) < 1000) leftVelocity = 0;
   }
   m_drivetrain->velocitySet(leftVelocity, rightVelocity);
-  std::cout << "Velocity " << leftVelocity << " " << rightVelocity << std::endl;
 }
 
 void autoDrive::End(bool interrupted){
@@ -131,7 +130,6 @@ void autoTurn::End(bool interrupted){
 }
 
 bool autoTurn::IsFinished(){
-  std::cout << "End: " << rightEnd << " Current: " << m_drivetrain->GetRightEncoders() << std::endl;
   if(abs(rightEnd - m_drivetrain->GetRightEncoders()) < 1000 || abs(leftEnd - m_drivetrain->GetLeftEncoders()) < 1000) return true;
   else return false;
 }
