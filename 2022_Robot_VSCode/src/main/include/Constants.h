@@ -16,9 +16,9 @@ const double accelRamp = 8;
 const double turnMod = .25; // .3
 const double turnRamp = 20;
 const double boost = 2; // 2
-const double k_accelDis = 60000;
-const double k_Vlow = 28;
-const double k_Vhigh = 40;
+const double k_accelDis = 40000;
+const double k_Vlow = 30;
+const double k_Vhigh = 50;
 
 //Gamepad bindings
 enum gamePadConfig {
@@ -77,7 +77,7 @@ const int k_shootStartTime = 900;
 const int k_shotDelay = 1000;
 const int shootTimeout = 1200;
 const int autoShootTime = 750;
-const int autoIntakeTimeout = 2500;
+const int autoIntakeTimeout = 3800;
 
 const double shooter_kF = .00019;
 const double shooter_kP = .00014;
